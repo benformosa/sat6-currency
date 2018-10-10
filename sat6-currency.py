@@ -727,9 +727,7 @@ if __name__ == "__main__":
 
     if args.advanced:
         advanced_currency()
-        sys.exit(0)
-    if args.library:
+    elif args.library:
         library_currency()
-        sys.exit(0)
     else:
         simple_currency()
