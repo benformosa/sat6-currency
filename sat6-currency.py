@@ -253,8 +253,8 @@ def advanced_currency(search):
             ("content_view_publish_date", None),
             ("lifecycle_environment", None),
             ("subscription_os_release", None),
-            ("os_release", None),
-            ("arch", None),
+            ("os_release", host["operatingsystem_name"]),
+            ("arch", host["architecture_name"]),
             ("subscription_status", None),
             ("comment", host["comment"]),
         ])
@@ -268,13 +268,13 @@ def advanced_currency(search):
         # Check if host is registered with subscription-manager
         # (unregistered hosts lack these values and are skipped)
         if "results" in erratas:
-
             # Check if host have any errrata at all
             if(
                     "total" in erratas and
                     "content_facet_attributes" in host and
                     "subscription_facet_attributes" in host
             ):
+
                 host_data["content_view"] = host[
                     "content_facet_attributes"]["content_view"]["name"]
                 content_view_id = host[
@@ -286,10 +286,8 @@ def advanced_currency(search):
                     "content_facet_attributes"]["lifecycle_environment"]["id"]
                 host_data["subscription_os_release"] = host[
                     "subscription_facet_attributes"]["release_version"]
-                host_data["arch"] = host["architecture_name"]
                 host_data["subscription_status"] = (
                     host["subscription_status_label"])
-                host_data["os_release"] = host["operatingsystem_name"]
 
                 content_view = get_with_json(
                     "{}/content_views/{}/content_view_versions?"
