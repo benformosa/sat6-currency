@@ -9,6 +9,7 @@ import csv
 import getpass
 import json
 import os
+import re
 import requests
 import sys
 import yaml
@@ -91,7 +92,33 @@ def output_csv(output):
         writer.writerows(output)
 
 
-def simple_currency():
+def search_string(queries):
+    """
+    Return a search query string, given a dict.
+
+    :param queries: A dictionary, containing key/value pairs to search for
+    """
+
+    s = ','.join("{}={}".format(k, v) for (k, v) in queries.iteritems())
+    return "?search=" + s
+
+
+def search_queries(sstring):
+    """
+    Return a dict, given a search query string.
+
+    :param queries: A string, in the format [?search=]key=value[,key=value]*
+    """
+    sstring = re.sub(r'^\?search=', '', sstring, flags=re.IGNORECASE)
+
+    if sstring:
+        d = dict(item.split("=") for item in sstring.split(","))
+    else:
+        d = {}
+    return d
+
+
+def simple_currency(search=""):
     """
     Simple form of the system currency report.
 
@@ -102,7 +129,7 @@ def simple_currency():
 
     # Get all hosts (alter if you have more than 10000 hosts)
     hosts = get_with_json(
-        "{}hosts{}".format(api, args.search),
+        "{}hosts{}".format(api, search),
         json.dumps({"per_page": "10000"})
     )["results"]
 
@@ -187,7 +214,7 @@ def simple_currency():
     return output
 
 
-def advanced_currency():
+def advanced_currency(search):
     """
     Advanced form of the system currency report.
 
@@ -198,7 +225,7 @@ def advanced_currency():
 
     # Get all hosts (for more than 10000 hosts, this will take a long time)
     hosts = get_with_json(
-        "{}hosts{}".format(api, args.search),
+        "{}hosts{}".format(api, search),
         json.dumps({"per_page": "10000"})
     )["results"]
 
@@ -716,12 +743,17 @@ if __name__ == "__main__":
 
     init(server)
 
+    search_dict = search_queries(args.search)
+    if args.organization:
+        search_dict['organization'] = args.organization
+    search_string = search_string(search_dict)
+
     if args.advanced:
-        output = advanced_currency()
+        output = advanced_currency(search_string)
     elif args.library:
-        output = library_currency()
+        output = library_currency(search_string)
     else:
-        output = simple_currency()
+        output = simple_currency(search_string)
 
     if args.output == 'csv':
         output_csv(output)
