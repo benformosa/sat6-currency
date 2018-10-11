@@ -188,31 +188,13 @@ def simple_currency():
 
 
 def advanced_currency():
+    """
+    Advanced form of the system currency report.
 
-    # Print headline
-    print(
-        ','.join(str(x) for x in [
-            "system_id",
-            "org_name",
-            "name",
-            "critical",
-            "important",
-            "moderate",
-            "low",
-            "bug",
-            "enhancement",
-            "score",
-            "content_view",
-            "content_view_publish_date",
-            "lifecycle_environment",
-            "subscription_os_release",
-            "os_release",
-            "arch",
-            "subscription_status",
-            "comment"
-        ]
-                 )
-    )
+    Return a list of dictts.
+    """
+
+    output = []
 
     # Get all hosts (for more than 10000 hosts, this will take a long time)
     hosts = get_with_json(
@@ -229,6 +211,26 @@ def advanced_currency():
     factor_enh = 1
 
     for host in hosts:
+        host_data = collections.OrderedDict([
+            ("system_id", host["id"]),
+            ("org_name", host["organization_name"]),
+            ("name", host["name"]),
+            ("critical", 0),
+            ("important", 0),
+            ("moderate", 0),
+            ("low", 0),
+            ("bug", 0),
+            ("enhancement", 0),
+            ("score", None),
+            ("content_view", None),
+            ("content_view_publish_date", None),
+            ("lifecycle_environment", None),
+            ("subscription_os_release", None),
+            ("os_release", None),
+            ("arch", None),
+            ("subscription_status", None),
+            ("comment", host["comment"]),
+        ])
 
         # Get all errata for each host
         erratas = get_with_json(
@@ -240,33 +242,27 @@ def advanced_currency():
         # (unregistered hosts lack these values and are skipped)
         if "results" in erratas:
 
-            errata_count_cri = 0
-            errata_count_imp = 0
-            errata_count_mod = 0
-            errata_count_low = 0
-            errata_count_enh = 0
-            errata_count_bug = 0
-
             # Check if host have any errrata at all
             if(
                     "total" in erratas and
                     "content_facet_attributes" in host and
                     "subscription_facet_attributes" in host
             ):
-                content_view_name = host[
+                host_data["content_view"] = host[
                     "content_facet_attributes"]["content_view"]["name"]
                 content_view_id = host[
                     "content_facet_attributes"]["content_view"]["id"]
-                lifecycle_environment = host[
+                host_data["lifecycle_environment"] = host[
                     "content_facet_attributes"][
                         "lifecycle_environment"]["name"]
                 lifecycle_environment_id = host[
                     "content_facet_attributes"]["lifecycle_environment"]["id"]
-                subscription_os_release = host[
+                host_data["subscription_os_release"] = host[
                     "subscription_facet_attributes"]["release_version"]
-                arch = host["architecture_name"]
-                subscription_status = host["subscription_status_label"]
-                os_release = host["operatingsystem_name"]
+                host_data["arch"] = host["architecture_name"]
+                host_data["subscription_status"] = (
+                    host["subscription_status_label"])
+                host_data["os_release"] = host["operatingsystem_name"]
 
                 content_view = get_with_json(
                     "{}/content_views/{}/content_view_versions?"
@@ -278,7 +274,8 @@ def advanced_currency():
                     json.dumps({"per_page": "10000"})
                 )["results"]
 
-                cv_date = content_view[0]["created_at"]
+                host_data["content_view_publish_date"] = (
+                    content_view[0]["created_at"])
 
                 # Go through each errata
                 for errata in erratas["results"]:
@@ -286,53 +283,30 @@ def advanced_currency():
                     # If it is a security errata, check the severity
                     if errata["type"] == "security":
                         if errata["severity"] == "Critical":
-                            errata_count_cri += 1
+                            host_data["critical"] += 1
                         if errata["severity"] == "Important":
-                            errata_count_imp += 1
+                            host_data["important"] += 1
                         if errata["severity"] == "Moderate":
-                            errata_count_mod += 1
+                            host_data["moderate"] += 1
                         if errata["severity"] == "Low":
-                            errata_count_low += 1
+                            host_data["low"] += 1
 
                     if errata["type"] == "enhancement":
-                        errata_count_enh += 1
+                        host_data["enhancement"] += 1
                     if errata["type"] == "bugfix":
-                        errata_count_bug += 1
+                        host_data["bug"] += 1
 
             # Calculate weighted score
-            score = (
-                factor_cri * errata_count_cri +
-                factor_imp * errata_count_imp +
-                factor_mod * errata_count_mod +
-                factor_low * errata_count_low +
-                factor_bug * errata_count_bug +
-                factor_enh * errata_count_enh
+            host_data["score"] = (
+                factor_cri * host_data["critical"] +
+                factor_imp * host_data["important"] +
+                factor_mod * host_data["moderate"] +
+                factor_low * host_data["low"] +
+                factor_bug * host_data["bug"] +
+                factor_enh * host_data["enhancement"]
             )
-
-            # Print result
-            print(
-                ','.join(str(x) for x in [
-                    host["id"],
-                    host["organization_name"],
-                    host["name"],
-                    errata_count_cri,
-                    errata_count_imp,
-                    errata_count_mod,
-                    errata_count_low,
-                    errata_count_bug,
-                    errata_count_enh,
-                    score,
-                    content_view_name,
-                    cv_date,
-                    lifecycle_environment,
-                    subscription_os_release,
-                    os_release,
-                    arch,
-                    subscription_status,
-                    host["comment"],
-                ]
-                         )
-            )
+            output.append(host_data)
+    return output
 
 
 def library_currency():
