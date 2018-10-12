@@ -157,6 +157,36 @@ def search_queries(sstring):
     return d
 
 
+# Multiply factors according to "spacewalk-report system-currency"
+FACTOR_CRI = 32
+FACTOR_IMP = 16
+FACTOR_MOD = 8  # Used for security errata in score_simple
+FACTOR_LOW = 4
+FACTOR_BUG = 2
+FACTOR_ENH = 1
+
+
+def score_simple(sec, bug, enh):
+    """Calculate a score based on number of outstanding errata."""
+    return (
+        (sec or 0) * FACTOR_MOD +
+        (bug or 0) * FACTOR_BUG +
+        (enh or 0) * FACTOR_ENH
+    )
+
+
+def score_advanced(cri, imp, mod, low, bug, enh):
+    """Calculate a score based on number of outstanding errata."""
+    return (
+        (cri or 0) * FACTOR_CRI +
+        (imp or 0) * FACTOR_IMP +
+        (mod or 0) * FACTOR_MOD +
+        (low or 0) * FACTOR_LOW +
+        (bug or 0) * FACTOR_BUG +
+        (enh or 0) * FACTOR_ENH
+    )
+
+
 def simple_currency(search=""):
     """
     Simple form of the system currency report.
@@ -171,11 +201,6 @@ def simple_currency(search=""):
         "{}hosts{}".format(api, search),
         json.dumps({"per_page": "10000"})
     )["results"]
-
-    # Multiply factors
-    factor_sec = 8
-    factor_bug = 2
-    factor_enh = 1
 
     for host in hosts:
         # Check if host is registered with subscription-manager
@@ -236,19 +261,13 @@ def simple_currency(search=""):
 
             host_data["content_view_publish_date"] = (
                 content_view[0]["created_at"])
-            if (
-                    host_data["security"] is None or
-                    host_data["bug"] is None or
-                    host_data["enhancement"] is None
-            ):
-                host_data["score"] = 0
-            else:
-                # Calculate weighted score
-                host_data["score"] = (
-                    host_data["security"] * factor_sec +
-                    host_data["bug"] * factor_bug +
-                    host_data["enhancement"] * factor_enh
-                )
+
+            # Calculate weighted score
+            host_data["score"] = score_simple(
+                host_data["security"],
+                host_data["bug"],
+                host_data["enhancement"]
+            )
             output.append(host_data)
     return output
 
@@ -267,14 +286,6 @@ def advanced_currency(search):
         "{}hosts{}".format(api, search),
         json.dumps({"per_page": "10000"})
     )["results"]
-
-    # Multiply factors according to "spacewalk-report system-currency"
-    factor_cri = 32
-    factor_imp = 16
-    factor_mod = 8
-    factor_low = 4
-    factor_bug = 2
-    factor_enh = 1
 
     for host in hosts:
         host_data = collections.OrderedDict([
@@ -361,13 +372,13 @@ def advanced_currency(search):
                         host_data["bug"] += 1
 
             # Calculate weighted score
-            host_data["score"] = (
-                factor_cri * host_data["critical"] +
-                factor_imp * host_data["important"] +
-                factor_mod * host_data["moderate"] +
-                factor_low * host_data["low"] +
-                factor_bug * host_data["bug"] +
-                factor_enh * host_data["enhancement"]
+            host_data["score"] = score_advanced(
+                host_data["critical"],
+                host_data["important"],
+                host_data["moderate"],
+                host_data["low"],
+                host_data["bug"],
+                host_data["enhancement"]
             )
             output.append(host_data)
     return output
@@ -425,14 +436,6 @@ def library_currency(org, search=""):
         "{}hosts{}".format(api, args.search),
         json.dumps({"per_page": "10000"})
     )["results"]
-
-    # Multiply factors according to "spacewalk-report system-currency"
-    factor_cri = 32
-    factor_imp = 16
-    factor_mod = 8
-    factor_low = 4
-    factor_bug = 2
-    factor_enh = 1
 
     for host in hosts:
         host_data = collections.OrderedDict([
@@ -596,21 +599,21 @@ def library_currency(org, search=""):
                     ]))
 
             # Calculate weighted score
-            score = (
-                factor_cri * host_data["critical"] +
-                factor_imp * host_data["important"] +
-                factor_mod * host_data["moderate"] +
-                factor_low * host_data["low"] +
-                factor_bug * host_data["bug"] +
-                factor_enh * host_data["enhancement"]
+            score = score_advanced(
+                host_data["critical"],
+                host_data["important"],
+                host_data["moderate"],
+                host_data["low"],
+                host_data["bug"],
+                host_data["enhancement"]
             )
-            applicable_score = (
-                factor_cri * host_data["applicable_critical"] +
-                factor_imp * host_data["applicable_important"] +
-                factor_mod * host_data["applicable_moderate"] +
-                factor_low * host_data["applicable_low"] +
-                factor_bug * host_data["applicable_bug"] +
-                factor_enh * host_data["applicable_enhancement"]
+            applicable_score = score_advanced(
+                host_data["applicable_critical"],
+                host_data["applicable_important"],
+                host_data["applicable_moderate"],
+                host_data["applicable_low"],
+                host_data["applicable_bug"],
+                host_data["applicable_enhancement"]
             )
             output.append(host_data)
     return (output, available, applicable)
