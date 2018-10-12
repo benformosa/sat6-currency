@@ -384,7 +384,7 @@ def advanced_currency(search):
     return output
 
 
-def library_currency(org, search=""):
+def library_currency(org, env, cv, search=""):
     """
     Advanced form of the system currency report, with more errata detail.
 
@@ -416,7 +416,10 @@ def library_currency(org, search=""):
     # Find lifecycle_environment
     lifecycle_environment_compare = get_with_json(
         "{}/organizations/{}/environments?name={}".format(
-            katello_api, str(organization_id), args.environment),
+            katello_api,
+            str(organization_id),
+            env
+        ),
         json.dumps({"per_page": "10000"})
     )["results"]
     lifecycle_environment_compare_id = lifecycle_environment_compare[0]["id"]
@@ -425,7 +428,10 @@ def library_currency(org, search=""):
     # Find content view
     content_view_compare = get_with_json(
         "{}/organizations/{}/content_views?name={}".format(
-            katello_api, str(organization_id), args.contentview),
+            katello_api,
+            str(organization_id),
+            cv
+        ),
         json.dumps({"per_page": "10000"})
     )["results"]
     content_view_compare_id = content_view_compare[0]["id"]
@@ -433,7 +439,7 @@ def library_currency(org, search=""):
 
     # Get all hosts (for more than 10000 hosts, this will take a long time)
     hosts = get_with_json(
-        "{}hosts{}".format(api, args.search),
+        "{}hosts{}".format(api, search),
         json.dumps({"per_page": "10000"})
     )["results"]
 
@@ -470,7 +476,10 @@ def library_currency(org, search=""):
 
         # Get all errata for each host
         erratas = get_with_json(
-            "{}hosts/{}/errata".format(api, str(host["id"])),
+            "{}hosts/{}/errata".format(
+                api,
+                str(host["id"]
+                    )),
             json.dumps({"per_page": "10000"})
         )
         applicable_erratas = get_with_json(
@@ -740,7 +749,12 @@ if __name__ == "__main__":
             output,
             available,
             applicable
-         ) = library_currency(args.organization, search_string)
+        ) = library_currency(
+            args.organization,
+            args.environment,
+            args.contentview,
+            search_string
+        )
 
         if available:
             with open(filename_available, 'w') as f:
