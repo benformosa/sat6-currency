@@ -3,6 +3,7 @@
 Satellite 6 version of 'spacewalk-report system-currency'
 """
 
+from __future__ import print_function
 import argparse
 import collections
 import csv
@@ -111,6 +112,17 @@ def output_json(output):
         indent=2,
         separators=(',', ': '),
     )
+
+
+OUTPUT_FORMATS = {
+    "csv": output_csv,
+    "json": output_json,
+    "yaml": output_yaml,
+}
+
+
+def output_format(format):
+    return OUTPUT_FORMATS[format]
 
 
 def search_string(queries):
@@ -359,7 +371,10 @@ def library_currency(org, search=""):
     """
     Advanced form of the system currency report, with more errata detail.
 
-    Return a list of dicts.
+    Return a Tuple of lists of dicts: (output, available, applicable)
+    output: list of hosts with currency report data
+    available: list of errata which are available
+    applicable: list of errata which are applicable
     """
 
     if org is None:
@@ -367,18 +382,8 @@ def library_currency(org, search=""):
         sys.exit(1)
 
     output = []
-
-    # Open reports files
-    available_file = open('available_errata.csv', 'w')
-    available_file.write(
-        "system_id,org_name,name,state,errata_id,issued,"
-        "updated,severity,type,reboot_suggested,title,further_info\n"
-    )
-    applicable_file = open('applicable_errata.csv', 'w')
-    applicable_file.write(
-        "system_id,org_name,name,state,errata_id,issued,"
-        "updated,severity,type,reboot_suggested,title,further_info\n"
-    )
+    available = []
+    applicable = []
 
     # Red Hat errata URL
     RH_URL = "https://access.redhat.com/errata/"
@@ -528,23 +533,21 @@ def library_currency(org, search=""):
                     # Delete any commas from the errata title
                     # eg: https://access.redhat.com/errata/RHSA-2017:0817
                     errata["title"] = errata["title"].replace(',', '')
-                    available_file.write(
-                        ','.join(str(x) for x in [
-                            str(host["id"]),
-                            str(host["organization_name"]),
-                            host["name"],
-                            "Available",
-                            str(errata["errata_id"]),
-                            str(errata["issued"]),
-                            str(errata["updated"]),
-                            str(errata["severity"]),
-                            str(errata["type"]),
-                            str(errata["reboot_suggested"]),
-                            str(errata["title"]),
-                            "{}{}\n".format(RH_URL, str(errata["errata_id"])),
-                        ]
-                                 )
-                    )
+                    available.append(collections.OrderedDict([
+                        ("system_id", str(host["id"])),
+                        ("org_name", str(host["organization_name"])),
+                        ("name", host["name"]),
+                        ("state", "Available"),
+                        ("errata_id", str(errata["errata_id"])),
+                        ("issued", str(errata["issued"])),
+                        ("updated", str(errata["updated"])),
+                        ("severity", str(errata["severity"])),
+                        ("type", str(errata["type"])),
+                        ("reboot_suggested", str(errata["reboot_suggested"])),
+                        ("title", str(errata["title"])),
+                        ("further_info",
+                         "{}{}\n".format(RH_URL, str(errata["errata_id"]))),
+                    ]))
 
                 # Go through each errata that is applicable (in the library)
                 for errata in applicable_erratas["results"]:
@@ -569,23 +572,22 @@ def library_currency(org, search=""):
                     # Delete any commas from the errata title
                     # eg: https://access.redhat.com/errata/RHSA-2017:0817
                     errata["title"] = errata["title"].replace(',', '')
-                    applicable_file.write(
-                        ','.join(str(x) for x in [
-                            str(host["id"]),
-                            str(host["organization_name"]),
-                            host["name"],
-                            "Applicable",
-                            str(errata["errata_id"]),
-                            str(errata["issued"]),
-                            str(errata["updated"]),
-                            str(errata["severity"]),
-                            str(errata["type"]),
-                            str(errata["reboot_suggested"]),
-                            str(errata["title"]),
-                            "{}{}\n".format(RH_URL, str(errata["errata_id"])),
-                        ]
-                                 )
-                    )
+
+                    applicable.append(collections.OrderedDict([
+                        ("system_id", str(host["id"])),
+                        ("org_name", str(host["organization_name"])),
+                        ("name", host["name"]),
+                        ("state", "Applicable"),
+                        ("errata_id", str(errata["errata_id"])),
+                        ("issued", str(errata["issued"])),
+                        ("updated", str(errata["updated"])),
+                        ("severity", str(errata["severity"])),
+                        ("type", str(errata["type"])),
+                        ("reboot_suggested", str(errata["reboot_suggested"])),
+                        ("title", str(errata["title"])),
+                        ("further_info",
+                         "{}{}\n".format(RH_URL, str(errata["errata_id"]))),
+                    ]))
 
             # Calculate weighted score
             score = (
@@ -605,9 +607,7 @@ def library_currency(org, search=""):
                 factor_enh * host_data["applicable_enhancement"]
             )
             output.append(host_data)
-    available_file.closed
-    applicable_file.closed
-    return output
+    return (output, available, applicable)
 
 
 if __name__ == "__main__":
@@ -685,7 +685,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--output",
-        choices=["csv", "json", "yaml"],
+        choices=OUTPUT_FORMATS.keys(),
         type=str,
         required=False,
         default="csv",
@@ -719,16 +719,27 @@ if __name__ == "__main__":
         search_dict['organization'] = args.organization
     search_string = search_string(search_dict)
 
+    output_function = output_format(args.output)
+
+    filename_available = "available" + args.output
+    filename_applicable = "applicable" + args.output
+
     if args.advanced:
         output = advanced_currency(search_string)
     elif args.library:
-        output = library_currency(args.organization, search_string)
+        (
+            output,
+            available,
+            applicable
+         ) = library_currency(args.organization, search_string)
+
+        if available:
+            with open(filename_available, 'w') as f:
+                print(output_function(available), file=f)
+        if applicable:
+            with open(filename_applicable, 'w') as f:
+                print(output_function(applicable), file=f)
     else:
         output = simple_currency(search_string)
 
-    if args.output == 'csv':
-        output_csv(output)
-    elif args.output == 'json':
-        print(output_json(output))
-    elif args.output == 'yaml':
-        print(output_yaml(output))
+    output_function(output)
