@@ -6,7 +6,6 @@ Satellite 6 version of 'spacewalk-report system-currency'
 from __future__ import print_function
 import argparse
 import collections
-import csv
 import getpass
 import json
 import os
@@ -86,12 +85,19 @@ def get_with_json(location, json_data):
 
 
 def output_csv(output):
-    """Print list of dicts to STDOUT in csv format."""
+    """Return list of dicts as string in csv format."""
     if output:
-        fieldnames = output[0].keys()
-        writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(output)
+        output_list = []
+        [output_list.append(str(k)) for k in output[0].keys()]
+        output_list.append(os.linesep)
+        for item in output:
+            [output_list.append(str(v)) for v in item.values()]
+            output_list.append(os.linesep)
+        s = ','.join(output_list)
+        s = s.replace(',{},'.format(os.linesep), os.linesep)
+        return s
+    else:
+        return ''
 
 
 def output_yaml(output):
@@ -251,7 +257,7 @@ def advanced_currency(search):
     """
     Advanced form of the system currency report.
 
-    Return a list of dictts.
+    Return a list of dicts.
     """
 
     output = []
@@ -742,4 +748,4 @@ if __name__ == "__main__":
     else:
         output = simple_currency(search_string)
 
-    output_function(output)
+    print(output_function(output))
