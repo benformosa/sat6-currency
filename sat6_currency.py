@@ -17,9 +17,13 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-def init(server):
+def init(host, user, passwd):
     """Set up global variables."""
     global url, api, katello_api, post_headers, ssl_verify
+    global server, username, password
+    server = host
+    username = user
+    password = passwd
 
     # Satellite specific parameters
     if server.startswith('https://'):
@@ -730,7 +734,7 @@ if __name__ == "__main__":
     if password is None:
         password = getpass.getpass()
 
-    init(server)
+    init(server, username, password)
 
     search_dict = search_queries(args.search)
     if args.organization:
