@@ -85,11 +85,32 @@ def get_with_json(location, json_data):
 
 
 def output_csv(output):
+    """Print list of dicts to STDOUT in csv format."""
     if output:
         fieldnames = output[0].keys()
         writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(output)
+
+
+def output_yaml(output):
+    """Return list of dicts as string in yaml format."""
+    return yaml.safe_dump(
+        # Convert list of OrderedDict to list of dict
+        [dict(item) for item in output],
+        explicit_start=True,
+        default_flow_style=False,
+    )
+
+
+def output_json(output):
+    """Return list of dicts as string in json format."""
+    return json.dumps(
+        output,
+        sort_keys=True,
+        indent=2,
+        separators=(',', ': '),
+    )
 
 
 def search_string(queries):
@@ -712,7 +733,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--output",
-        choices=["csv"],
+        choices=["csv", "json", "yaml"],
         type=str,
         required=False,
         default="csv",
@@ -755,3 +776,7 @@ if __name__ == "__main__":
 
     if args.output == 'csv':
         output_csv(output)
+    elif args.output == 'json':
+        print(output_json(output))
+    elif args.output == 'yaml':
+        print(output_yaml(output))
