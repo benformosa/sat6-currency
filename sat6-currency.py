@@ -82,24 +82,7 @@ parser.add_argument(
     default="Library",
     help="Environment to use with the '-l' option. Default: Library"
 )
-parser.add_argument(
-    '-v', '--verbosity',
-    action="count",
-    help="Increase output verbosity (e.g., -vv is more than -v)"
-)
 args = parser.parse_args()
-
-# Set up v_print function for verbose output
-if args.verbosity:
-    def _v_print(*verb_args):
-        if verb_args[0] > (3 - args.verbosity):
-            print(verb_args[1])
-else:
-    # do-nothing function
-    def _v_print(*a): return None
-
-global v_print
-v_print = _v_print
 
 server = args.server
 username = args.username
@@ -108,35 +91,28 @@ password = args.password
 # If config option specified, read Hammer CLI config file
 if args.config is not None:
     # Load the configuration file
-    v_print(3, "Loading config file {}".format(args.config.name))
     config = yaml.safe_load(args.config)
     # If the key is present in the config file, attempt to load values
     # Values specified on the commandline take precendence over config file
     key = ':foreman'
     try:
         if args.server is None:
-            v_print(2, "Loading server from configuration")
             server = config[key][':host']
         else:
-            v_print(2, "Loading server from arguments")
             server = args.server
     except(KeyError):
         pass
     try:
         if args.username is None:
-            v_print(2, "Loading username from configuration")
             username = config[key][':username']
         else:
-            v_print(2, "Loading username from arguments")
             username = args.username
     except(KeyError):
         pass
     try:
         if args.password is None:
-            v_print(2, "Loading password from configuration")
             password = config[key][':password']
         else:
-            v_print(2, "Loading password from arguments")
             password = args.password
     except(KeyError):
         pass
@@ -153,7 +129,6 @@ if server.startswith('https://'):
     url = server.strip('/')
 else:
     url = "https://{}".format(server)
-v_print(3, "url is {}".format(url))
 api = url + "/api/"
 katello_api = url + "/katello/api/v2"
 post_headers = {'content-type': 'application/json'}
@@ -164,19 +139,6 @@ def get_with_json(location, json_data):
     """
     Performs a GET and passes the data to the url location
     """
-    v_print(1, "Requesting data:\n"
-            "  location={},\n"
-            "  data={},\n"
-            "  auth=({},{}),\n"
-            "  verify={},\n"
-            "  headers={}".format(
-                location,
-                json_data,
-                username,
-                password,
-                ssl_verify,
-                post_headers)
-            )
     try:
         result = requests.get(
             location,
@@ -764,13 +726,10 @@ def library_currency():
 if __name__ == "__main__":
 
     if args.advanced:
-        v_print(3, "Starting advanced report")
         advanced_currency()
         sys.exit(0)
     if args.library:
-        v_print(3, "Starting library report")
         library_currency()
         sys.exit(0)
     else:
-        v_print(3, "Starting simple report")
         simple_currency()
