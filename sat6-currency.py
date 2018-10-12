@@ -355,46 +355,18 @@ def advanced_currency(search):
     return output
 
 
-def library_currency():
-    """Advanced form of the system currency report, with more errata detail."""
+def library_currency(org, search=""):
+    """
+    Advanced form of the system currency report, with more errata detail.
 
-    if args.organization is None:
+    Return a list of dicts.
+    """
+
+    if org is None:
         print("Organization must be specified for Library report")
         sys.exit(1)
 
-    # Print headline
-    print(
-        ','.join(str(x) for x in [
-            "system_id",
-            "org_name",
-            "name",
-            "total_available_security",
-            "critical",
-            "important",
-            "moderate",
-            "low",
-            "bug",
-            "enhancement",
-            "score",
-            "total_applicable_security",
-            "applicable_critical",
-            "applicable_important",
-            "applicable_moderate",
-            "applicable_low",
-            "applicable_bug",
-            "applicable_enhancement",
-            "applicable_score",
-            "content_view",
-            "content_view_publish_date",
-            "lifecycle_environment",
-            "subscription_os_release",
-            "os_release",
-            "arch",
-            "subscription_status",
-            "comment",
-        ]
-                 )
-    )
+    output = []
 
     # Open reports files
     available_file = open('available_errata.csv', 'w')
@@ -413,7 +385,7 @@ def library_currency():
 
     # Find organization
     organization = get_with_json(
-        "{}/organizations/?Search={}".format(katello_api, args.organization),
+        "{}/organizations/?Search={}".format(katello_api, org),
         json.dumps({"per_page": "10000"})
     )["results"]
     organization_id = organization[0]["id"]
@@ -452,6 +424,35 @@ def library_currency():
     factor_enh = 1
 
     for host in hosts:
+        host_data = collections.OrderedDict([
+            ("system_id", host["id"]),
+            ("org_name", host["organization_name"]),
+            ("name", host["name"]),
+            ("total_available_security", 0),
+            ("critical", 0),
+            ("important", 0),
+            ("moderate", 0),
+            ("low", 0),
+            ("bug", 0),
+            ("enhancement", 0),
+            ("score", 0),
+            ("total_applicable_security", 0),
+            ("applicable_critical", 0),
+            ("applicable_important", 0),
+            ("applicable_moderate", 0),
+            ("applicable_low", 0),
+            ("applicable_bug", 0),
+            ("applicable_enhancement", 0),
+            ("applicable_score", 0),
+            ("content_view", None),
+            ("content_view_publish_date", None),
+            ("lifecycle_environment", None),
+            ("subscription_os_release", None),
+            ("os_release", host["operatingsystem_name"]),
+            ("arch", host["architecture_name"]),
+            ("subscription_status", None),
+            ("comment", host["comment"]),
+        ])
 
         # Get all errata for each host
         erratas = get_with_json(
@@ -471,43 +472,25 @@ def library_currency():
         # Check if host is registered with subscription-manager
         # (unregistered hosts lack these values and are skipped)
         if "results" in erratas:
-
-            errata_count_sec = 0
-            errata_count_cri = 0
-            errata_count_imp = 0
-            errata_count_mod = 0
-            errata_count_low = 0
-            errata_count_enh = 0
-            errata_count_bug = 0
-
-            applicable_errata_count_sec = 0
-            applicable_errata_count_cri = 0
-            applicable_errata_count_imp = 0
-            applicable_errata_count_mod = 0
-            applicable_errata_count_low = 0
-            applicable_errata_count_enh = 0
-            applicable_errata_count_bug = 0
-
             # Check if host have any errrata at all
             if (
                     "total" in erratas and
                     "content_facet_attributes" in host and
                     "subscription_facet_attributes" in host
             ):
-                content_view_name = host[
+                host_data["content_view"] = host[
                     "content_facet_attributes"]["content_view"]["name"]
                 content_view_id = host[
                     "content_facet_attributes"]["content_view"]["id"]
-                lifecycle_environment = host[
+                host_data["lifecycle_environment"] = host[
                     "content_facet_attributes"][
                         "lifecycle_environment"]["name"]
                 lifecycle_environment_id = host[
                     "content_facet_attributes"]["lifecycle_environment"]["id"]
-                subscription_os_release = host[
+                host_data["subscription_os_release"] = host[
                     "subscription_facet_attributes"]["release_version"]
-                arch = host["architecture_name"]
-                subscription_status = host["subscription_status_label"]
-                os_release = host["operatingsystem_name"]
+                host_data["subscription_status"] = (
+                    host["subscription_status_label"])
 
                 content_view = get_with_json(
                     "{}/content_views/{}/content_view_versions?"
@@ -519,7 +502,8 @@ def library_currency():
                     json.dumps({"per_page": "10000"})
                 )["results"]
 
-                cv_date = content_view[0]["created_at"]
+                host_data["content_view_publish_date"] = (
+                    content_view[0]["created_at"])
 
                 # Go through each errata that is available
                 for errata in erratas["results"]:
@@ -528,18 +512,18 @@ def library_currency():
                     if errata["type"] == "security":
                         errata_count_sec += 1
                         if errata["severity"] == "Critical":
-                            errata_count_cri += 1
+                            host_data["critical"] += 1
                         if errata["severity"] == "Important":
-                            errata_count_imp += 1
+                            host_data["important"] += 1
                         if errata["severity"] == "Moderate":
-                            errata_count_mod += 1
+                            host_data["moderate"] += 1
                         if errata["severity"] == "Low":
-                            errata_count_low += 1
+                            host_data["low"] += 1
 
                     if errata["type"] == "enhancement":
-                        errata_count_enh += 1
+                        host_data["enhancement"] += 1
                     if errata["type"] == "bugfix":
-                        errata_count_bug += 1
+                        host_data["bug"] += 1
 
                     # Delete any commas from the errata title
                     # eg: https://access.redhat.com/errata/RHSA-2017:0817
@@ -569,18 +553,18 @@ def library_currency():
                     if errata["type"] == "security":
                         applicable_errata_count_sec += 1
                         if errata["severity"] == "Critical":
-                            applicable_errata_count_cri += 1
+                            host_data["applicable_critical"] += 1
                         if errata["severity"] == "Important":
-                            applicable_errata_count_imp += 1
+                            host_data["applicable_important"] += 1
                         if errata["severity"] == "Moderate":
-                            applicable_errata_count_mod += 1
+                            host_data["applicable_moderate"] += 1
                         if errata["severity"] == "Low":
-                            applicable_errata_count_low += 1
+                            host_data["applicable_low"] += 1
 
                     if errata["type"] == "enhancement":
-                        applicable_errata_count_enh += 1
+                        host_data["applicable_enhancement"] += 1
                     if errata["type"] == "bugfix":
-                        applicable_errata_count_bug += 1
+                        host_data["applicable_bug"] += 1
 
                     # Delete any commas from the errata title
                     # eg: https://access.redhat.com/errata/RHSA-2017:0817
@@ -605,58 +589,25 @@ def library_currency():
 
             # Calculate weighted score
             score = (
-                factor_cri * errata_count_cri +
-                factor_imp * errata_count_imp +
-                factor_mod * errata_count_mod +
-                factor_low * errata_count_low +
-                factor_bug * errata_count_bug +
-                factor_enh * errata_count_enh
+                factor_cri * host_data["critical"] +
+                factor_imp * host_data["important"] +
+                factor_mod * host_data["moderate"] +
+                factor_low * host_data["low"] +
+                factor_bug * host_data["bug"] +
+                factor_enh * host_data["enhancement"]
             )
             applicable_score = (
-                factor_cri * applicable_errata_count_cri +
-                factor_imp * applicable_errata_count_imp +
-                factor_mod * applicable_errata_count_mod +
-                factor_low * applicable_errata_count_low +
-                factor_bug * applicable_errata_count_bug +
-                factor_enh * applicable_errata_count_enh
+                factor_cri * host_data["applicable_critical"] +
+                factor_imp * host_data["applicable_important"] +
+                factor_mod * host_data["applicable_moderate"] +
+                factor_low * host_data["applicable_low"] +
+                factor_bug * host_data["applicable_bug"] +
+                factor_enh * host_data["applicable_enhancement"]
             )
-
-            # Print result
-            print(
-                ','.join(str(x) for x in [
-                    str(host["id"]),
-                    str(host["organization_name"]),
-                    host["name"],
-                    str(errata_count_sec),
-                    str(errata_count_cri),
-                    str(errata_count_imp),
-                    str(errata_count_mod),
-                    str(errata_count_low),
-                    str(errata_count_bug),
-                    str(errata_count_enh),
-                    str(score),
-                    str(applicable_errata_count_sec),
-                    str(applicable_errata_count_cri),
-                    str(applicable_errata_count_imp),
-                    str(applicable_errata_count_mod),
-                    str(applicable_errata_count_low),
-                    str(applicable_errata_count_bug),
-                    str(applicable_errata_count_enh),
-                    str(applicable_score),
-                    str(content_view_name),
-                    str(cv_date),
-                    str(lifecycle_environment),
-                    str(subscription_os_release),
-                    str(os_release),
-                    str(arch),
-                    str(subscription_status),
-                    str(host["comment"]),
-                ]
-                         )
-            )
-
+            output.append(host_data)
     available_file.closed
     applicable_file.closed
+    return output
 
 
 if __name__ == "__main__":
@@ -713,6 +664,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o", "--organization",
         type=str,
+        default=None,
         required=False,
         help="Organization to use when using the '-l' option"
     )
@@ -770,7 +722,7 @@ if __name__ == "__main__":
     if args.advanced:
         output = advanced_currency(search_string)
     elif args.library:
-        output = library_currency(search_string)
+        output = library_currency(args.organization, search_string)
     else:
         output = simple_currency(search_string)
 
