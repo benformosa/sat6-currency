@@ -99,6 +99,8 @@ def output_csv(output):
             output_list.append(os.linesep)
         s = ','.join(output_list)
         s = s.replace(',{},'.format(os.linesep), os.linesep)
+        s = s.replace(',{}'.format(os.linesep), os.linesep)
+        s = s.rstrip(os.linesep)
         return s
     else:
         return ''
