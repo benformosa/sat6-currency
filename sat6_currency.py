@@ -211,70 +211,70 @@ def simple_currency(search=""):
     for host in hosts:
         # Check if host is registered with subscription-manager
         # (unregistered hosts lack these values and are skipped)
-        if (
-                "content_facet_attributes" in host and
-                host["content_facet_attributes"]["errata_counts"]
-        ):
-            host_data = collections.OrderedDict([
-                ("system_id", host["id"]),
-                ("org_name", host["organization_name"]),
-                ("name", host["name"]),
-                ("security", None),
-                ("bug", None),
-                ("enhancement", None),
-                ("score", None),
-                ("content_view", None),
-                ("content_view_publish_date", None),
-                ("lifecycle_environment", None),
-                ("subscription_os_release", None),
-                ("os_release", None),
-                ("arch", None),
-                ("subscription_status", None),
-                ("comment", host["comment"]),
-            ])
+        if not ("content_facet_attributes" in host and
+                host["content_facet_attributes"]["errata_counts"]):
+            continue
 
-            # Get each number of different kinds of erratas
-            host_data["security"] = host[
-                "content_facet_attributes"]["errata_counts"]["security"]
-            host_data["bug"] = host[
-                "content_facet_attributes"]["errata_counts"]["bugfix"]
-            host_data["enhancement"] = host[
-                "content_facet_attributes"]["errata_counts"]["enhancement"]
-            host_data["content_view"] = host[
-                "content_facet_attributes"]["content_view"]["name"]
-            content_view_id = host[
-                "content_facet_attributes"]["content_view"]["id"]
-            host_data["lifecycle_environment"] = host[
-                "content_facet_attributes"]["lifecycle_environment"]["name"]
-            lifecycle_environment_id = host[
-                "content_facet_attributes"]["lifecycle_environment"]["id"]
-            host_data["subscription_os_release"] = host[
-                "subscription_facet_attributes"]["release_version"]
-            host_data["arch"] = host["architecture_name"]
-            host_data["subscription_status"] = (
-                host["subscription_status_label"])
-            host_data["os_release"] = host["operatingsystem_name"]
+        host_data = collections.OrderedDict([
+            ("system_id", host["id"]),
+            ("org_name", host["organization_name"]),
+            ("name", host["name"]),
+            ("security", None),
+            ("bug", None),
+            ("enhancement", None),
+            ("score", None),
+            ("content_view", None),
+            ("content_view_publish_date", None),
+            ("lifecycle_environment", None),
+            ("subscription_os_release", None),
+            ("os_release", None),
+            ("arch", None),
+            ("subscription_status", None),
+            ("comment", host["comment"]),
+        ])
 
-            content_view = get_with_json(
-                "{}/content_views/{}/content_view_versions?"
-                "environment_id={}".format(
-                    katello_api,
-                    str(content_view_id),
-                    str(lifecycle_environment_id)
-                ),
-                json.dumps({"per_page": "10000"})
-            )["results"]
+        # Get each number of different kinds of erratas
+        host_data["security"] = host[
+            "content_facet_attributes"]["errata_counts"]["security"]
+        host_data["bug"] = host[
+            "content_facet_attributes"]["errata_counts"]["bugfix"]
+        host_data["enhancement"] = host[
+            "content_facet_attributes"]["errata_counts"]["enhancement"]
+        host_data["content_view"] = host[
+            "content_facet_attributes"]["content_view"]["name"]
+        content_view_id = host[
+            "content_facet_attributes"]["content_view"]["id"]
+        host_data["lifecycle_environment"] = host[
+            "content_facet_attributes"]["lifecycle_environment"]["name"]
+        lifecycle_environment_id = host[
+            "content_facet_attributes"]["lifecycle_environment"]["id"]
+        host_data["subscription_os_release"] = host[
+            "subscription_facet_attributes"]["release_version"]
+        host_data["arch"] = host["architecture_name"]
+        host_data["subscription_status"] = (
+            host["subscription_status_label"])
+        host_data["os_release"] = host["operatingsystem_name"]
 
-            host_data["content_view_publish_date"] = (
-                content_view[0]["created_at"])
+        content_view = get_with_json(
+            "{}/content_views/{}/content_view_versions?"
+            "environment_id={}".format(
+                katello_api,
+                str(content_view_id),
+                str(lifecycle_environment_id)
+            ),
+            json.dumps({"per_page": "10000"})
+        )["results"]
 
-            # Calculate weighted score
-            host_data["score"] = score_simple(
-                host_data["security"],
-                host_data["bug"],
-                host_data["enhancement"]
-            )
-            output.append(host_data)
+        host_data["content_view_publish_date"] = (
+            content_view[0]["created_at"])
+
+        # Calculate weighted score
+        host_data["score"] = score_simple(
+            host_data["security"],
+            host_data["bug"],
+            host_data["enhancement"]
+        )
+        output.append(host_data)
     return output
 
 
@@ -325,57 +325,56 @@ def advanced_currency(search):
         # (unregistered hosts lack these values and are skipped)
         if "results" in erratas:
             # Check if host have any errrata at all
-            if(
-                    "total" in erratas and
+            if not ("total" in erratas and
                     "content_facet_attributes" in host and
-                    "subscription_facet_attributes" in host
-            ):
+                    "subscription_facet_attributes" in host):
+                continue
 
-                host_data["content_view"] = host[
-                    "content_facet_attributes"]["content_view"]["name"]
-                content_view_id = host[
-                    "content_facet_attributes"]["content_view"]["id"]
-                host_data["lifecycle_environment"] = host[
-                    "content_facet_attributes"][
-                        "lifecycle_environment"]["name"]
-                lifecycle_environment_id = host[
-                    "content_facet_attributes"]["lifecycle_environment"]["id"]
-                host_data["subscription_os_release"] = host[
-                    "subscription_facet_attributes"]["release_version"]
-                host_data["subscription_status"] = (
-                    host["subscription_status_label"])
+            host_data["content_view"] = host[
+                "content_facet_attributes"]["content_view"]["name"]
+            content_view_id = host[
+                "content_facet_attributes"]["content_view"]["id"]
+            host_data["lifecycle_environment"] = host[
+                "content_facet_attributes"][
+                    "lifecycle_environment"]["name"]
+            lifecycle_environment_id = host[
+                "content_facet_attributes"]["lifecycle_environment"]["id"]
+            host_data["subscription_os_release"] = host[
+                "subscription_facet_attributes"]["release_version"]
+            host_data["subscription_status"] = (
+                host["subscription_status_label"])
 
-                content_view = get_with_json(
-                    "{}/content_views/{}/content_view_versions?"
-                    "environment_id={}".format(
-                        katello_api,
-                        str(content_view_id),
-                        str(lifecycle_environment_id)
-                    ),
-                    json.dumps({"per_page": "10000"})
-                )["results"]
+            content_view = get_with_json(
+                "{}/content_views/{}/content_view_versions?"
+                "environment_id={}".format(
+                    katello_api,
+                    str(content_view_id),
+                    str(lifecycle_environment_id)
+                ),
+                json.dumps({"per_page": "10000"})
+            )["results"]
 
-                host_data["content_view_publish_date"] = (
-                    content_view[0]["created_at"])
+            host_data["content_view_publish_date"] = (
+                content_view[0]["created_at"])
 
-                # Go through each errata
-                for errata in erratas["results"]:
+            # Go through each errata
+            for errata in erratas["results"]:
 
-                    # If it is a security errata, check the severity
-                    if errata["type"] == "security":
-                        if errata["severity"] == "Critical":
-                            host_data["critical"] += 1
-                        if errata["severity"] == "Important":
-                            host_data["important"] += 1
-                        if errata["severity"] == "Moderate":
-                            host_data["moderate"] += 1
-                        if errata["severity"] == "Low":
-                            host_data["low"] += 1
+                # If it is a security errata, check the severity
+                if errata["type"] == "security":
+                    if errata["severity"] == "Critical":
+                        host_data["critical"] += 1
+                    if errata["severity"] == "Important":
+                        host_data["important"] += 1
+                    if errata["severity"] == "Moderate":
+                        host_data["moderate"] += 1
+                    if errata["severity"] == "Low":
+                        host_data["low"] += 1
 
-                    if errata["type"] == "enhancement":
-                        host_data["enhancement"] += 1
-                    if errata["type"] == "bugfix":
-                        host_data["bug"] += 1
+                if errata["type"] == "enhancement":
+                    host_data["enhancement"] += 1
+                if errata["type"] == "bugfix":
+                    host_data["bug"] += 1
 
             # Calculate weighted score
             host_data["score"] = score_advanced(
@@ -502,116 +501,116 @@ def library_currency(org, env, cv, search=""):
         # (unregistered hosts lack these values and are skipped)
         if "results" in erratas:
             # Check if host have any errrata at all
-            if (
-                    "total" in erratas and
+            if not ("total" in erratas and
                     "content_facet_attributes" in host and
-                    "subscription_facet_attributes" in host
-            ):
-                host_data["content_view"] = host[
-                    "content_facet_attributes"]["content_view"]["name"]
-                content_view_id = host[
-                    "content_facet_attributes"]["content_view"]["id"]
-                host_data["lifecycle_environment"] = host[
-                    "content_facet_attributes"][
-                        "lifecycle_environment"]["name"]
-                lifecycle_environment_id = host[
-                    "content_facet_attributes"]["lifecycle_environment"]["id"]
-                host_data["subscription_os_release"] = host[
-                    "subscription_facet_attributes"]["release_version"]
-                host_data["subscription_status"] = (
-                    host["subscription_status_label"])
+                    "subscription_facet_attributes" in host):
+                continue
 
-                content_view = get_with_json(
-                    "{}/content_views/{}/content_view_versions?"
-                    "environment_id={}".format(
-                        katello_api,
-                        str(content_view_id),
-                        str(lifecycle_environment_id)
-                    ),
-                    json.dumps({"per_page": "10000"})
-                )["results"]
+            host_data["content_view"] = host[
+                "content_facet_attributes"]["content_view"]["name"]
+            content_view_id = host[
+                "content_facet_attributes"]["content_view"]["id"]
+            host_data["lifecycle_environment"] = host[
+                "content_facet_attributes"][
+                    "lifecycle_environment"]["name"]
+            lifecycle_environment_id = host[
+                "content_facet_attributes"]["lifecycle_environment"]["id"]
+            host_data["subscription_os_release"] = host[
+                "subscription_facet_attributes"]["release_version"]
+            host_data["subscription_status"] = (
+                host["subscription_status_label"])
 
-                host_data["content_view_publish_date"] = (
-                    content_view[0]["created_at"])
+            content_view = get_with_json(
+                "{}/content_views/{}/content_view_versions?"
+                "environment_id={}".format(
+                    katello_api,
+                    str(content_view_id),
+                    str(lifecycle_environment_id)
+                ),
+                json.dumps({"per_page": "10000"})
+            )["results"]
 
-                # Go through each errata that is available
-                for errata in erratas["results"]:
+            host_data["content_view_publish_date"] = (
+                content_view[0]["created_at"])
 
-                    # If it is a security errata, check the severity
-                    if errata["type"] == "security":
-                        errata_count_sec += 1
-                        if errata["severity"] == "Critical":
-                            host_data["critical"] += 1
-                        if errata["severity"] == "Important":
-                            host_data["important"] += 1
-                        if errata["severity"] == "Moderate":
-                            host_data["moderate"] += 1
-                        if errata["severity"] == "Low":
-                            host_data["low"] += 1
+            # Go through each errata that is available
+            for errata in erratas["results"]:
 
-                    if errata["type"] == "enhancement":
-                        host_data["enhancement"] += 1
-                    if errata["type"] == "bugfix":
-                        host_data["bug"] += 1
+                # If it is a security errata, check the severity
+                if errata["type"] == "security":
+                    host_data["total_available_security"] += 1
+                    if errata["severity"] == "Critical":
+                        host_data["critical"] += 1
+                    if errata["severity"] == "Important":
+                        host_data["important"] += 1
+                    if errata["severity"] == "Moderate":
+                        host_data["moderate"] += 1
+                    if errata["severity"] == "Low":
+                        host_data["low"] += 1
 
-                    # Delete any commas from the errata title
-                    # eg: https://access.redhat.com/errata/RHSA-2017:0817
-                    errata["title"] = errata["title"].replace(',', '')
-                    available.append(collections.OrderedDict([
-                        ("system_id", str(host["id"])),
-                        ("org_name", str(host["organization_name"])),
-                        ("name", host["name"]),
-                        ("state", "Available"),
-                        ("errata_id", str(errata["errata_id"])),
-                        ("issued", str(errata["issued"])),
-                        ("updated", str(errata["updated"])),
-                        ("severity", str(errata["severity"])),
-                        ("type", str(errata["type"])),
-                        ("reboot_suggested", str(errata["reboot_suggested"])),
-                        ("title", str(errata["title"])),
-                        ("further_info",
-                         "{}{}\n".format(RH_URL, str(errata["errata_id"]))),
-                    ]))
+                if errata["type"] == "enhancement":
+                    host_data["enhancement"] += 1
+                if errata["type"] == "bugfix":
+                    host_data["bug"] += 1
 
-                # Go through each errata that is applicable (in the library)
-                for errata in applicable_erratas["results"]:
+                # Delete any commas from the errata title
+                # eg: https://access.redhat.com/errata/RHSA-2017:0817
+                errata["title"] = errata["title"].replace(',', '')
+                available.append(collections.OrderedDict([
+                    ("system_id", str(host["id"])),
+                    ("org_name", str(host["organization_name"])),
+                    ("name", host["name"]),
+                    ("state", "Available"),
+                    ("errata_id", str(errata["errata_id"])),
+                    ("issued", str(errata["issued"])),
+                    ("updated", str(errata["updated"])),
+                    ("severity", str(errata["severity"])),
+                    ("type", str(errata["type"])),
+                    ("reboot_suggested", str(errata["reboot_suggested"])),
+                    ("title", str(errata["title"])),
+                    ("further_info",
+                     "{}{}".format(RH_URL, str(errata["errata_id"]))),
+                ]))
 
-                    # If it is a security errata, check the severity
-                    if errata["type"] == "security":
-                        applicable_errata_count_sec += 1
-                        if errata["severity"] == "Critical":
-                            host_data["applicable_critical"] += 1
-                        if errata["severity"] == "Important":
-                            host_data["applicable_important"] += 1
-                        if errata["severity"] == "Moderate":
-                            host_data["applicable_moderate"] += 1
-                        if errata["severity"] == "Low":
-                            host_data["applicable_low"] += 1
+            # Go through each errata that is applicable (in the library)
+            for errata in applicable_erratas["results"]:
 
-                    if errata["type"] == "enhancement":
-                        host_data["applicable_enhancement"] += 1
-                    if errata["type"] == "bugfix":
-                        host_data["applicable_bug"] += 1
+                # If it is a security errata, check the severity
+                if errata["type"] == "security":
+                    host_data["total_applicable_security"] += 1
+                    if errata["severity"] == "Critical":
+                        host_data["applicable_critical"] += 1
+                    if errata["severity"] == "Important":
+                        host_data["applicable_important"] += 1
+                    if errata["severity"] == "Moderate":
+                        host_data["applicable_moderate"] += 1
+                    if errata["severity"] == "Low":
+                        host_data["applicable_low"] += 1
 
-                    # Delete any commas from the errata title
-                    # eg: https://access.redhat.com/errata/RHSA-2017:0817
-                    errata["title"] = errata["title"].replace(',', '')
+                if errata["type"] == "enhancement":
+                    host_data["applicable_enhancement"] += 1
+                if errata["type"] == "bugfix":
+                    host_data["applicable_bug"] += 1
 
-                    applicable.append(collections.OrderedDict([
-                        ("system_id", str(host["id"])),
-                        ("org_name", str(host["organization_name"])),
-                        ("name", host["name"]),
-                        ("state", "Applicable"),
-                        ("errata_id", str(errata["errata_id"])),
-                        ("issued", str(errata["issued"])),
-                        ("updated", str(errata["updated"])),
-                        ("severity", str(errata["severity"])),
-                        ("type", str(errata["type"])),
-                        ("reboot_suggested", str(errata["reboot_suggested"])),
-                        ("title", str(errata["title"])),
-                        ("further_info",
-                         "{}{}\n".format(RH_URL, str(errata["errata_id"]))),
-                    ]))
+                # Delete any commas from the errata title
+                # eg: https://access.redhat.com/errata/RHSA-2017:0817
+                errata["title"] = errata["title"].replace(',', '')
+
+                applicable.append(collections.OrderedDict([
+                    ("system_id", str(host["id"])),
+                    ("org_name", str(host["organization_name"])),
+                    ("name", host["name"]),
+                    ("state", "Applicable"),
+                    ("errata_id", str(errata["errata_id"])),
+                    ("issued", str(errata["issued"])),
+                    ("updated", str(errata["updated"])),
+                    ("severity", str(errata["severity"])),
+                    ("type", str(errata["type"])),
+                    ("reboot_suggested", str(errata["reboot_suggested"])),
+                    ("title", str(errata["title"])),
+                    ("further_info",
+                     "{}{}".format(RH_URL, str(errata["errata_id"]))),
+                ]))
 
             # Calculate weighted score
             score = score_advanced(
