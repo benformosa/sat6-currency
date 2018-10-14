@@ -1,12 +1,12 @@
 
-* [ ] Allow importing script as function
-** [ ] Rename to replace hyphen with underscore
+* [x] Allow importing script as function
+** [x] Rename to replace hyphen with underscore
 ** [x] Move commandline arguments to if __name__ == "__main__":
 ** [x] Return structured data from *_currency functions
 *** [x] Print structured data using a formatter in __main__
 ** [ ] Write a TEST!!!
 
-* [ ] Write a patchsummary.py which imports sat6-currency
+* [x] Write a patchsummary.py which imports sat6-currency
 ** Summarise which systems are patched
 ** Print a report for each system with columns:
 *** system_id
@@ -23,6 +23,8 @@
 * [ ] Add option to list traces. use /api/hosts/{}/traces {"total":x,...}
 
 * [ ] Tests using unittest
+
+* [ ] Group up arguments for different scenarios (e.g. requiring organization for library)
 
 * [ ] simple_currency
 ** [ ] after for host in hosts, invert the if statement and continue if the expression is false. that way, will be able to dedent the content of the for block after that
