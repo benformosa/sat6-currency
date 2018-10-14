@@ -744,8 +744,8 @@ if __name__ == "__main__":
 
     output_function = output_format(args.output)
 
-    filename_available = "available" + args.output
-    filename_applicable = "applicable" + args.output
+    filename_available = "available." + args.output
+    filename_applicable = "applicable." + args.output
 
     if args.advanced:
         output = advanced_currency(search_string)
