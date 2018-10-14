@@ -12,6 +12,6 @@
 * [ ] Group up arguments for different scenarios (e.g. requiring organization for library)
 
 * [x] in simple_currency after for host in hosts, invert the if statement and continue if the expression is false. that way, will be able to dedent the content of the for block after that
-* [ ] tidy up line continuations using parentheses in value assignment
+* [x] tidy up line continuations using parentheses in value assignment
 * [x] split score calculations into function
 * [ ] change sys.exit to exception

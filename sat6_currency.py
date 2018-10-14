@@ -234,22 +234,22 @@ def simple_currency(search=""):
         ])
 
         # Get each number of different kinds of erratas
-        host_data["security"] = host[
-            "content_facet_attributes"]["errata_counts"]["security"]
-        host_data["bug"] = host[
-            "content_facet_attributes"]["errata_counts"]["bugfix"]
-        host_data["enhancement"] = host[
-            "content_facet_attributes"]["errata_counts"]["enhancement"]
-        host_data["content_view"] = host[
-            "content_facet_attributes"]["content_view"]["name"]
-        content_view_id = host[
-            "content_facet_attributes"]["content_view"]["id"]
-        host_data["lifecycle_environment"] = host[
-            "content_facet_attributes"]["lifecycle_environment"]["name"]
-        lifecycle_environment_id = host[
-            "content_facet_attributes"]["lifecycle_environment"]["id"]
-        host_data["subscription_os_release"] = host[
-            "subscription_facet_attributes"]["release_version"]
+        host_data["security"] = (
+            host["content_facet_attributes"]["errata_counts"]["security"])
+        host_data["bug"] = (
+            host["content_facet_attributes"]["errata_counts"]["bugfix"])
+        host_data["enhancement"] = (
+            host["content_facet_attributes"]["errata_counts"]["enhancement"])
+        host_data["content_view"] = (
+            host["content_facet_attributes"]["content_view"]["name"])
+        content_view_id = (
+            host["content_facet_attributes"]["content_view"]["id"])
+        host_data["lifecycle_environment"] = (
+            host["content_facet_attributes"]["lifecycle_environment"]["name"])
+        lifecycle_environment_id = (
+            host["content_facet_attributes"]["lifecycle_environment"]["id"])
+        host_data["subscription_os_release"] = (
+            host["subscription_facet_attributes"]["release_version"])
         host_data["arch"] = host["architecture_name"]
         host_data["subscription_status"] = (
             host["subscription_status_label"])
@@ -330,17 +330,16 @@ def advanced_currency(search):
                     "subscription_facet_attributes" in host):
                 continue
 
-            host_data["content_view"] = host[
-                "content_facet_attributes"]["content_view"]["name"]
-            content_view_id = host[
-                "content_facet_attributes"]["content_view"]["id"]
-            host_data["lifecycle_environment"] = host[
-                "content_facet_attributes"][
-                    "lifecycle_environment"]["name"]
-            lifecycle_environment_id = host[
-                "content_facet_attributes"]["lifecycle_environment"]["id"]
-            host_data["subscription_os_release"] = host[
-                "subscription_facet_attributes"]["release_version"]
+            host_data["content_view"] = (
+                host["content_facet_attributes"]["content_view"]["name"])
+            content_view_id = (
+                host["content_facet_attributes"]["content_view"]["id"])
+            host_data["lifecycle_environment"] = (
+                host["content_facet_attributes"]["lifecycle_environment"]["name"])  # noqa
+            lifecycle_environment_id = (
+                host["content_facet_attributes"]["lifecycle_environment"]["id"])  # noqa
+            host_data["subscription_os_release"] = (
+                host["subscription_facet_attributes"]["release_version"])
             host_data["subscription_status"] = (
                 host["subscription_status_label"])
 
@@ -359,7 +358,6 @@ def advanced_currency(search):
 
             # Go through each errata
             for errata in erratas["results"]:
-
                 # If it is a security errata, check the severity
                 if errata["type"] == "security":
                     if errata["severity"] == "Critical":
@@ -506,17 +504,16 @@ def library_currency(org, env, cv, search=""):
                     "subscription_facet_attributes" in host):
                 continue
 
-            host_data["content_view"] = host[
-                "content_facet_attributes"]["content_view"]["name"]
-            content_view_id = host[
-                "content_facet_attributes"]["content_view"]["id"]
-            host_data["lifecycle_environment"] = host[
-                "content_facet_attributes"][
-                    "lifecycle_environment"]["name"]
-            lifecycle_environment_id = host[
-                "content_facet_attributes"]["lifecycle_environment"]["id"]
-            host_data["subscription_os_release"] = host[
-                "subscription_facet_attributes"]["release_version"]
+            host_data["content_view"] = (
+                host["content_facet_attributes"]["content_view"]["name"])
+            content_view_id = (
+                host["content_facet_attributes"]["content_view"]["id"])
+            host_data["lifecycle_environment"] = (
+                host["content_facet_attributes"]["lifecycle_environment"]["name"])  # noqa
+            lifecycle_environment_id = (
+                host["content_facet_attributes"]["lifecycle_environment"]["id"])  # noqa
+            host_data["subscription_os_release"] = (
+                host["subscription_facet_attributes"]["release_version"])
             host_data["subscription_status"] = (
                 host["subscription_status_label"])
 
