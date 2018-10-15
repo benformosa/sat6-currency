@@ -1,0 +1,4 @@
+:foreman:
+  :host: 'https://example.com/'
+  :username: 'Admin'
+  :password: 'sw0rdfi$h'

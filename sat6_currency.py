@@ -47,16 +47,16 @@ def loadconfig(configfile):
     key = ':foreman'
     try:
         server = config[key][':host']
-    except(KeyError):
-        pass
+    except(KeyError, TypeError):
+        server = None
     try:
         username = config[key][':username']
-    except(KeyError):
-        pass
+    except(KeyError, TypeError):
+        username = None
     try:
         password = config[key][':password']
-    except(KeyError):
-        pass
+    except(KeyError, TypeError):
+        password = None
 
     return (server, username, password)
 
