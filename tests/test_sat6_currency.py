@@ -208,7 +208,3 @@ class TestScore(unittest.TestCase):
             sat6_currency.score_advanced(1, 1, 1, 1, 1, 1),
             32 + 16 + 8 + 4 + 2 + 1
         )
-
-
-if __name__ == "__main__":
-    unittest.main()
