@@ -96,5 +96,70 @@ class TestOutput(unittest.TestCase):
         )
 
 
+class TestSearchString(unittest.TestCase):
+    def test_search_string_empty(self):
+        self.assertEqual(
+            sat6_currency.search_string({}),
+            "?search="
+        )
+
+    def test_search_string_one(self):
+        self.assertEqual(
+            sat6_currency.search_string({
+                "key1": "value1",
+            }),
+            "?search=key1=value1"
+        )
+
+    def test_search_string_two(self):
+        self.assertEqual(
+            sat6_currency.search_string(
+                collections.OrderedDict([
+                    ("key1", "value1"),
+                    ("key2", "value2"),
+                ])
+            ),
+            "?search=key1=value1,key2=value2"
+        )
+
+
+class TestSearchQueries(unittest.TestCase):
+    def test_search_queries_empty(self):
+        self.assertEqual(sat6_currency.search_queries(""), {})
+
+    def test_search_queries_noquery(self):
+        self.assertEqual(
+            sat6_currency.search_queries("?Search="),
+            {}
+        )
+
+    def test_search_queries_one(self):
+        self.assertEqual(
+            sat6_currency.search_queries("?search=key1=value1"),
+            {"key1": "value1"}
+        )
+
+    def test_search_queries_two(self):
+        self.assertEqual(
+            sat6_currency.search_queries("?search=key1=value1,key2=value2"),
+            {
+                "key1": "value1",
+                "key2": "value2",
+            }
+        )
+
+    def test_search_queries_emptyvalue(self):
+        self.assertEqual(
+            sat6_currency.search_queries("?search=key1="),
+            {"key1": ""}
+        )
+
+    def test_search_queries_novalue(self):
+        self.assertEqual(
+            sat6_currency.search_queries("?search=key1"),
+            {"key1": ""}
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

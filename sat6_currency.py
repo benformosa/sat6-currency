@@ -154,11 +154,16 @@ def search_queries(sstring):
     """
     sstring = re.sub(r'^\?search=', '', sstring, flags=re.IGNORECASE)
 
-    if sstring:
-        d = dict(item.split("=") for item in sstring.split(","))
-    else:
-        d = {}
-    return d
+    queries = []
+    for item in sstring.split(","):
+        if not item:
+            pass
+        elif '=' in item:
+            queries.append(item.split("="))
+        else:
+            # treat substrings 'key=', 'key' the same
+            queries.append((item, ''))
+    return dict(queries)
 
 
 # Multiply factors according to "spacewalk-report system-currency"
