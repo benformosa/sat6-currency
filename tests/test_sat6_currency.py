@@ -49,6 +49,9 @@ class TestOutput(unittest.TestCase):
             ]),
         ]
 
+    def test_output_csv_empty(self):
+        self.assertEqual(sat6_currency.output_csv([]), '')
+
     def test_output_csv(self):
         self.assertEqual(
             sat6_currency.output_csv(self.output),
@@ -57,6 +60,9 @@ class TestOutput(unittest.TestCase):
             "two,22,None\n"
             "three,None,red"
         )
+
+    def test_output_json_empty(self):
+        self.assertEqual(sat6_currency.output_json([]), '[]')
 
     def test_output_json(self):
         self.assertEqual(
@@ -80,6 +86,9 @@ class TestOutput(unittest.TestCase):
             ']'
         )
 
+    def test_output_yaml_empty(self):
+        self.assertEqual(sat6_currency.output_yaml([]), '--- []\n')
+
     def test_output_yaml(self):
         self.assertEqual(
             sat6_currency.output_yaml(self.output),
@@ -93,6 +102,20 @@ class TestOutput(unittest.TestCase):
             "- colour: red\n"
             "  name: three\n"
             "  number: null\n"
+        )
+
+    def test_output_format(self):
+        self.assertEqual(
+            sat6_currency.output_format('csv'),
+            sat6_currency.output_csv
+        )
+        self.assertEqual(
+            sat6_currency.output_format('json'),
+            sat6_currency.output_json
+        )
+        self.assertEqual(
+            sat6_currency.output_format('yaml'),
+            sat6_currency.output_yaml
         )
 
 
