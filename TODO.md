@@ -14,4 +14,4 @@
 * [x] in simple_currency after for host in hosts, invert the if statement and continue if the expression is false. that way, will be able to dedent the content of the for block after that
 * [x] tidy up line continuations using parentheses in value assignment
 * [x] split score calculations into function
-* [ ] change sys.exit to exception
+* [x] change sys.exit to exception

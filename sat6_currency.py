@@ -11,7 +11,6 @@ import json
 import os
 import re
 import requests
-import sys
 import yaml
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -75,17 +74,16 @@ def get_with_json(location, json_data):
             headers=post_headers
         )
 
-    except requests.ConnectionError, e:
-        print("{} Couldn't connect to the API,"
-              " check connection or url".format(location))
-        print(e)
-        sys.exit(1)
+    except requests.ConnectionError:
+        print("Error: Couldn't connect to the API,"
+              " check connection or url '{}'".format(location))
+        raise
     if result.ok:
         return result.json()
     else:
-        print(" Error connecting to '{}'. HTTP Status: {}".format(
+        print("Error connecting to '{}'. HTTP Status: {}".format(
             location, str(result.status_code)))
-        sys.exit(1)
+        raise requests.ConnectionError
 
 
 def output_csv(output):
@@ -398,8 +396,7 @@ def library_currency(org, env, cv, search=""):
     """
 
     if org is None:
-        print("Organization must be specified for Library report")
-        sys.exit(1)
+        raise RuntimeError("Organization must be specified for Library report")
 
     output = []
     available = []
