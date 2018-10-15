@@ -607,7 +607,7 @@ def library_currency(org, env, cv, search=""):
                 ]))
 
             # Calculate weighted score
-            score = score_advanced(
+            host_data["score"] = score_advanced(
                 host_data["critical"],
                 host_data["important"],
                 host_data["moderate"],
@@ -615,7 +615,7 @@ def library_currency(org, env, cv, search=""):
                 host_data["bug"],
                 host_data["enhancement"]
             )
-            applicable_score = score_advanced(
+            host_data["applicable_score"] = score_advanced(
                 host_data["applicable_critical"],
                 host_data["applicable_important"],
                 host_data["applicable_moderate"],
