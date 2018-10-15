@@ -161,5 +161,31 @@ class TestSearchQueries(unittest.TestCase):
         )
 
 
+class TestScore(unittest.TestCase):
+    def test_score_simple_none(self):
+        self.assertEqual(
+            sat6_currency.score_simple(None, None, None),
+            0
+        )
+
+    def test_score_simple(self):
+        self.assertEqual(
+            sat6_currency.score_simple(1, 1, 1),
+            8 + 2 + 1
+        )
+
+    def test_score_advanced_none(self):
+        self.assertEqual(
+            sat6_currency.score_advanced(None, None, None, None, None, None),
+            0
+        )
+
+    def test_score_advanced(self):
+        self.assertEqual(
+            sat6_currency.score_advanced(1, 1, 1, 1, 1, 1),
+            32 + 16 + 8 + 4 + 2 + 1
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
