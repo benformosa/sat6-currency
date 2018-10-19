@@ -1,8 +1,10 @@
 #!/usr/bin/env python2
 
 import sat6_currency
+import mock_satellite_api
 
 import collections
+import requests
 import unittest
 
 
@@ -207,4 +209,76 @@ class TestScore(unittest.TestCase):
         self.assertEqual(
             sat6_currency.score_advanced(1, 1, 1, 1, 1, 1),
             32 + 16 + 8 + 4 + 2 + 1
+        )
+
+
+class TestClass(unittest.TestCase):
+    def test_class_url(self):
+        config = sat6_currency.SatelliteServerConfig(
+            'https://satellite.example.com/',
+            'Admin',
+            'sw0rdfi$h',
+        )
+        self.assertEqual(config.url, 'https://satellite.example.com')
+
+    def test_class_host(self):
+        config = sat6_currency.SatelliteServerConfig(
+            'satellite.example.com',
+            'Admin',
+            'sw0rdfi$h',
+        )
+        self.assertEqual(config.url, 'https://satellite.example.com')
+
+
+class TestAPI(unittest.TestCase):
+    def setUpMockAPI(self):
+        self.web_port = mock_satellite_api.get_free_port()
+        self.hostname = 'localhost'
+        mock_satellite_api.serve_api(port=self.web_port)
+        self.url = 'http://{hostname}:{port}'.format(
+            hostname=self.hostname, port=self.web_port
+        )
+
+    def setUpConfig(self):
+        self.config = sat6_currency.SatelliteServerConfig(
+            'http://localhost:{}'.format(str(self.web_port)),
+            'username',
+            'password',
+        )
+        self.config.ssl_verify = False
+
+    def setUp(self):
+        self.setUpMockAPI()
+        self.setUpConfig()
+
+    def test_get_with_json_bad_host(self):
+        with self.assertRaises(requests.ConnectionError):
+            sat6_currency.get_with_json(
+                self.config,
+                'https://satellite.example/bar'
+            )
+
+    def test_get_with_json_404(self):
+        with self.assertRaises(requests.ConnectionError):
+            sat6_currency.get_with_json(
+                self.config,
+                self.url + '/bar'
+            )
+
+    def test_get_with_json_foo(self):
+        self.assertEqual(
+            sat6_currency.get_with_json(
+                self.config,
+                self.url + '/foo'
+            ),
+            [{u'foo': u'bar'}]
+        )
+
+    def test_get_with_json_baz(self):
+        self.assertEqual(
+            sat6_currency.get_with_json(
+                self.config,
+                self.url + '/baz'
+            ),
+            [{u'baz': u'qux'}]
         )

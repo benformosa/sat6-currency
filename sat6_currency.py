@@ -16,23 +16,23 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-def init(host, user, passwd):
-    """Set up global variables."""
-    global url, api, katello_api, post_headers, ssl_verify
-    global server, username, password
-    server = host
-    username = user
-    password = passwd
+class SatelliteServerConfig:
+    """Store the configuration required to connect to the Satellite API"""
 
-    # Satellite specific parameters
-    if server.startswith('https://'):
-        url = server.strip('/')
-    else:
-        url = "https://{}".format(server)
-    api = url + "/api/"
-    katello_api = url + "/katello/api/v2"
-    post_headers = {'content-type': 'application/json'}
     ssl_verify = True
+
+    def __init__(self, server, username, password):
+        self.server = server
+        self.username = username
+        self.password = password
+
+        # Satellite specific parameters
+        if server.startswith('https://'):
+            self.url = server.strip('/')
+        else:
+            self.url = "https://{}".format(server)
+        self.api = self.url + "/api/"
+        self.katello_api = self.url + "/katello/api/v2"
 
 
 def loadconfig(configfile):
@@ -61,7 +61,8 @@ def loadconfig(configfile):
     return (server, username, password)
 
 
-def get_with_json(location, json_data):
+def get_with_json(config, location,
+                  json_data=json.dumps({"per_page": "10000"})):
     """
     Performs a GET and passes the data to the url location
     """
@@ -69,9 +70,9 @@ def get_with_json(location, json_data):
         result = requests.get(
             location,
             data=json_data,
-            auth=(username, password),
-            verify=ssl_verify,
-            headers=post_headers
+            auth=(config.username, config.password),
+            verify=config.ssl_verify,
+            headers={'content-type': 'application/json'}
         )
 
     except requests.ConnectionError:
@@ -196,7 +197,7 @@ def score_advanced(cri, imp, mod, low, bug, enh):
     )
 
 
-def simple_currency(search=""):
+def simple_currency(config, search=""):
     """
     Simple form of the system currency report.
 
@@ -207,8 +208,8 @@ def simple_currency(search=""):
 
     # Get all hosts (alter if you have more than 10000 hosts)
     hosts = get_with_json(
-        "{}hosts{}".format(api, search),
-        json.dumps({"per_page": "10000"})
+        config,
+        "{}hosts{}".format(config.api, search),
     )["results"]
 
     for host in hosts:
@@ -259,13 +260,13 @@ def simple_currency(search=""):
         host_data["os_release"] = host["operatingsystem_name"]
 
         content_view = get_with_json(
+            config,
             "{}/content_views/{}/content_view_versions?"
             "environment_id={}".format(
-                katello_api,
+                config.katello_api,
                 str(content_view_id),
                 str(lifecycle_environment_id)
             ),
-            json.dumps({"per_page": "10000"})
         )["results"]
 
         host_data["content_view_publish_date"] = (
@@ -281,7 +282,7 @@ def simple_currency(search=""):
     return output
 
 
-def advanced_currency(search):
+def advanced_currency(config, search):
     """
     Advanced form of the system currency report.
 
@@ -292,8 +293,8 @@ def advanced_currency(search):
 
     # Get all hosts (for more than 10000 hosts, this will take a long time)
     hosts = get_with_json(
-        "{}hosts{}".format(api, search),
-        json.dumps({"per_page": "10000"})
+        config,
+        "{}hosts{}".format(config.api, search),
     )["results"]
 
     for host in hosts:
@@ -320,8 +321,9 @@ def advanced_currency(search):
 
         # Get all errata for each host
         erratas = get_with_json(
-            "{}hosts/{}/errata".format(api, str(host["id"])),
-            json.dumps({"per_page": "10000"})
+            config,
+            "{}hosts/{}/errata".format(config.api, str(host["id"])),
+            json.dumps({"per_page": "10000"}),
         )
 
         # Check if host is registered with subscription-manager
@@ -347,13 +349,13 @@ def advanced_currency(search):
                 host["subscription_status_label"])
 
             content_view = get_with_json(
+                config,
                 "{}/content_views/{}/content_view_versions?"
                 "environment_id={}".format(
-                    katello_api,
+                    config.katello_api,
                     str(content_view_id),
                     str(lifecycle_environment_id)
                 ),
-                json.dumps({"per_page": "10000"})
             )["results"]
 
             host_data["content_view_publish_date"] = (
@@ -390,7 +392,7 @@ def advanced_currency(search):
     return output
 
 
-def library_currency(org, env, cv, search=""):
+def library_currency(config, org, env, cv, search=""):
     """
     Advanced form of the system currency report, with more errata detail.
 
@@ -412,40 +414,40 @@ def library_currency(org, env, cv, search=""):
 
     # Find organization
     organization = get_with_json(
-        "{}/organizations/?Search={}".format(katello_api, org),
-        json.dumps({"per_page": "10000"})
+        config,
+        "{}/organizations/?Search={}".format(config.katello_api, org),
     )["results"]
     organization_id = organization[0]["id"]
     # print str(organization_id)
 
     # Find lifecycle_environment
     lifecycle_environment_compare = get_with_json(
+        config,
         "{}/organizations/{}/environments?name={}".format(
-            katello_api,
+            config.katello_api,
             str(organization_id),
             env
         ),
-        json.dumps({"per_page": "10000"})
     )["results"]
     lifecycle_environment_compare_id = lifecycle_environment_compare[0]["id"]
     # print str(lifecycle_environment_compare_id)
 
     # Find content view
     content_view_compare = get_with_json(
+        config,
         "{}/organizations/{}/content_views?name={}".format(
-            katello_api,
+            config.katello_api,
             str(organization_id),
             cv
         ),
-        json.dumps({"per_page": "10000"})
     )["results"]
     content_view_compare_id = content_view_compare[0]["id"]
     # print str(content_view_compare_id)
 
     # Get all hosts (for more than 10000 hosts, this will take a long time)
     hosts = get_with_json(
-        "{}hosts{}".format(api, search),
-        json.dumps({"per_page": "10000"})
+        config,
+        "{}hosts{}".format(config.api, search),
     )["results"]
 
     for host in hosts:
@@ -481,20 +483,20 @@ def library_currency(org, env, cv, search=""):
 
         # Get all errata for each host
         erratas = get_with_json(
+            config,
             "{}hosts/{}/errata".format(
-                api,
+                config.api,
                 str(host["id"]
                     )),
-            json.dumps({"per_page": "10000"})
         )
         applicable_erratas = get_with_json(
+            config,
             "{}hosts/{}/errata?environment_id={}&content_view_id={}".format(
-                api,
+                config.api,
                 str(host["id"]),
                 str(lifecycle_environment_compare_id),
                 str(content_view_compare_id)
             ),
-            json.dumps({"per_page": "10000"})
         )
 
         # Check if host is registered with subscription-manager
@@ -520,13 +522,13 @@ def library_currency(org, env, cv, search=""):
                 host["subscription_status_label"])
 
             content_view = get_with_json(
+                config,
                 "{}/content_views/{}/content_view_versions?"
                 "environment_id={}".format(
-                    katello_api,
+                    config.katello_api,
                     str(content_view_id),
                     str(lifecycle_environment_id)
                 ),
-                json.dumps({"per_page": "10000"})
             )["results"]
 
             host_data["content_view_publish_date"] = (
@@ -734,7 +736,7 @@ if __name__ == "__main__":
     if password is None:
         password = getpass.getpass()
 
-    init(server, username, password)
+    config = SatelliteServerConfig(server, username, password)
 
     search_dict = search_queries(args.search)
     if args.organization:
@@ -747,13 +749,14 @@ if __name__ == "__main__":
     filename_applicable = "applicable." + args.output
 
     if args.advanced:
-        output = advanced_currency(search_string)
+        output = advanced_currency(config, search_string)
     elif args.library:
         (
             output,
             available,
             applicable
         ) = library_currency(
+            config,
             args.organization,
             args.environment,
             args.contentview,
@@ -767,6 +770,6 @@ if __name__ == "__main__":
             with open(filename_applicable, 'w') as f:
                 print(output_function(applicable), file=f)
     else:
-        output = simple_currency(search_string)
+        output = simple_currency(config, search_string)
 
     print(output_function(output))
