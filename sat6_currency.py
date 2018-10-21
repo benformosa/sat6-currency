@@ -18,19 +18,23 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 class SatelliteServerConfig:
     """Store the configuration required to connect to the Satellite API"""
-
-    ssl_verify = True
-
-    def __init__(self, server, username, password):
-        self.server = server
+    def __init__(self, server, username, password, ssl_verify=True):
         self.username = username
         self.password = password
+        self.ssl_verify = ssl_verify
 
-        # Satellite specific parameters
-        if server.startswith('https://'):
-            self.url = server.strip('/')
-        else:
-            self.url = "https://{}".format(server)
+        scheme = 'http'
+        if ssl_verify:
+            scheme += 's'
+
+        m = re.search(
+            r'(?:https?://)?([\w\.\:]*)/?',
+            server,
+            flags=re.IGNORECASE
+        )
+        self.server = m.group(1)
+
+        self.url = "{}://{}".format(scheme, self.server)
         self.api = self.url + "/api/"
         self.katello_api = self.url + "/katello/api/v2"
 

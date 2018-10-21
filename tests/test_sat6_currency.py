@@ -215,11 +215,43 @@ class TestScore(unittest.TestCase):
 class TestClass(unittest.TestCase):
     def test_class_url(self):
         config = sat6_currency.SatelliteServerConfig(
-            'https://satellite.example.com/',
+            'https://satellite.example.com',
             'Admin',
             'sw0rdfi$h',
         )
         self.assertEqual(config.url, 'https://satellite.example.com')
+
+    def test_class_url_http(self):
+        config = sat6_currency.SatelliteServerConfig(
+            'http://satellite.example.com',
+            'Admin',
+            'sw0rdfi$h',
+        )
+        self.assertEqual(config.url, 'https://satellite.example.com')
+
+    def test_class_url_slash(self):
+        config = sat6_currency.SatelliteServerConfig(
+            'https://satellite.example.com',
+            'Admin',
+            'sw0rdfi$h',
+        )
+        self.assertEqual(config.url, 'https://satellite.example.com')
+
+    def test_class_url_port(self):
+        config = sat6_currency.SatelliteServerConfig(
+            'https://satellite.example.com:8443',
+            'Admin',
+            'sw0rdfi$h',
+        )
+        self.assertEqual(config.url, 'https://satellite.example.com:8443')
+
+    def test_class_url_port_slash(self):
+        config = sat6_currency.SatelliteServerConfig(
+            'https://satellite.example.com:8443/',
+            'Admin',
+            'sw0rdfi$h',
+        )
+        self.assertEqual(config.url, 'https://satellite.example.com:8443')
 
     def test_class_host(self):
         config = sat6_currency.SatelliteServerConfig(
@@ -228,6 +260,14 @@ class TestClass(unittest.TestCase):
             'sw0rdfi$h',
         )
         self.assertEqual(config.url, 'https://satellite.example.com')
+
+    def test_class_host_port(self):
+        config = sat6_currency.SatelliteServerConfig(
+            'satellite.example.com:8443',
+            'Admin',
+            'sw0rdfi$h',
+        )
+        self.assertEqual(config.url, 'https://satellite.example.com:8443')
 
 
 class TestAPI(unittest.TestCase):
@@ -244,8 +284,8 @@ class TestAPI(unittest.TestCase):
             'http://localhost:{}'.format(str(self.web_port)),
             'username',
             'password',
+            ssl_verify=False
         )
-        self.config.ssl_verify = False
 
     def setUp(self):
         self.setUpMockAPI()
