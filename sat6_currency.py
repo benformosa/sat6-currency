@@ -286,7 +286,7 @@ def simple_currency(config, search=""):
     return output
 
 
-def advanced_currency(config, search):
+def advanced_currency(config, search=""):
     """
     Advanced form of the system currency report.
 

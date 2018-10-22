@@ -323,17 +323,16 @@ class TestAPI(TestCaseWithMock):
 
 class TestSimpleCurrency(TestCaseWithMock):
     def test_simple_currency(self):
-        output = sat6_currency.simple_currency(self.config)
         self.assertEqual(
-            output,
+            sat6_currency.simple_currency(self.config),
             [collections.OrderedDict([
                 ('system_id', 5),
                 ('org_name', u'ORG'),
                 ('name', u'dev1.example.com'),
-                ('security', 0),
-                ('bug', 0),
-                ('enhancement', 0),
-                ('score', 0),
+                ('security', 6),
+                ('bug', 5),
+                ('enhancement', 2),
+                ('score', 60),
                 ('content_view', u'RHEL 7 DevTools'),
                 ('content_view_publish_date', u'2018-10-09 21:31:44 UTC'),
                 ('lifecycle_environment', u'Development'),
@@ -343,4 +342,282 @@ class TestSimpleCurrency(TestCaseWithMock):
                 ('subscription_status', u'Fully entitled'),
                 ('comment', u'Development machine')
             ])]
+        )
+
+
+class TestAdvancedCurrency(TestCaseWithMock):
+    def test_advanced_currency(self):
+        self.assertEqual(
+            sat6_currency.advanced_currency(self.config),
+            [collections.OrderedDict([
+                ('system_id', 5),
+                ('org_name', u'ORG'),
+                ('name', u'dev1.example.com'),
+                ("critical", 1),
+                ("important", 2),
+                ("moderate", 2),
+                ("low", 1),
+                ("bug", 5),
+                ("enhancement", 2),
+                ('score', 96),
+                ('content_view', u'RHEL 7 DevTools'),
+                ('content_view_publish_date', u'2018-10-09 21:31:44 UTC'),
+                ('lifecycle_environment', u'Development'),
+                ('subscription_os_release', u'7Server'),
+                ('os_release', u'RedHat 7.5'),
+                ('arch', u'x86_64'),
+                ('subscription_status', u'Fully entitled'),
+                ('comment', u'Development machine')
+            ])]
+        )
+
+
+class TestLibraryCurrency(TestCaseWithMock):
+    def setUp(self):
+        super(TestLibraryCurrency, self).setUp()
+        self.available = [
+            collections.OrderedDict([
+                ("system_id", '5'),
+                ("org_name", 'ORG'),
+                ("name", 'dev1.example.com'),
+                ("state", "Available"),
+                ("errata_id", 'RHSA-2018:2942'),
+                ("issued", '2018-10-17'),
+                ("updated", '2018-10-17'),
+                ("severity", 'Critical'),
+                ("type", 'security'),
+                ("reboot_suggested", 'False'),
+                ("title", 'Critical: java-1.8.0-openjdk security update'),
+                ("further_info", 'https://access.redhat.com/errata/RHSA-2018:2942'),  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHBA-2018:2941'),
+                ('issued', '2018-10-17'),
+                ('updated', '2018-10-17'),
+                ('severity', 'None'),
+                ('type', 'bugfix'),
+                ('reboot_suggested', 'False'),
+                ('title', 'virtio-win bug fix update'),
+                ('further_info', 'https://access.redhat.com/errata/RHBA-2018:2941')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHSA-2018:2921'),
+                ('issued', '2018-10-16'),
+                ('updated', '2018-10-16'),
+                ('severity', 'Important'),
+                ('type', 'security'),
+                ('reboot_suggested', 'False'),
+                ('title', 'Important: tomcat security update'),
+                ('further_info', 'https://access.redhat.com/errata/RHSA-2018:2921')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHSA-2018:2918'),
+                ('issued', '2018-10-16'),
+                ('updated', '2018-10-16'),
+                ('severity', 'Important'),
+                ('type', 'security'),
+                ('reboot_suggested', 'False'),
+                ('title', 'Important: ghostscript security update'),
+                ('further_info', 'https://access.redhat.com/errata/RHSA-2018:2918')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHBA-2018:2914'),
+                ('issued', '2018-10-11'),
+                ('updated', '2018-10-11'),
+                ('severity', 'None'),
+                ('type', 'bugfix'),
+                ('reboot_suggested', 'False'),
+                ('title', 'Satellite Tools 6.3.4 Async Bug Fix Update'),
+                ('further_info', 'https://access.redhat.com/errata/RHBA-2018:2914')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHEA-2018:2903'),
+                ('issued', '2018-10-10'),
+                ('updated', '2018-10-10'),
+                ('severity', 'None'),
+                ('type', 'enhancement'),
+                ('reboot_suggested', 'False'),
+                ('title', 'new package: kmod-oracleasm'),
+                ('further_info', 'https://access.redhat.com/errata/RHEA-2018:2903')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHBA-2018:2894'),
+                ('issued', '2018-10-09'),
+                ('updated', '2018-10-09'),
+                ('severity', 'None'),
+                ('type', 'bugfix'),
+                ('reboot_suggested', 'False'),
+                ('title', 'mailx bug fix update'),
+                ('further_info', 'https://access.redhat.com/errata/RHBA-2018:2894')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHBA-2018:2899'),
+                ('issued', '2018-10-09'),
+                ('updated', '2018-10-09'),
+                ('severity', 'None'),
+                ('type', 'bugfix'),
+                ('reboot_suggested', 'False'),
+                ('title', 'ypserv bug fix update'),
+                ('further_info', 'https://access.redhat.com/errata/RHBA-2018:2899')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHBA-2018:2893'),
+                ('issued', '2018-10-09'),
+                ('updated', '2018-10-09'),
+                ('severity', 'None'),
+                ('type', 'bugfix'),
+                ('reboot_suggested', 'False'),
+                ('title', 'gcc-libraries bug fix and enhancement update'),
+                ('further_info', 'https://access.redhat.com/errata/RHBA-2018:2893')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHSA-2018:2898'),
+                ('issued', '2018-10-09'),
+                ('updated', '2018-10-09'),
+                ('severity', 'Moderate'),
+                ('type', 'security'),
+                ('reboot_suggested', 'False'),
+                ('title', 'Moderate: nss security update'),
+                ('further_info', 'https://access.redhat.com/errata/RHSA-2018:2898')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHSA-2018:2892'),
+                ('issued', '2018-10-09'),
+                ('updated', '2018-10-09'),
+                ('severity', 'Moderate'),
+                ('type', 'security'),
+                ('reboot_suggested', 'False'),
+                ('title', 'Moderate: glusterfs security bug fix and enhancement update'),  # noqa
+                ('further_info', 'https://access.redhat.com/errata/RHSA-2018:2892')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHEA-2018:2890'),
+                ('issued', '2018-10-09'),
+                ('updated', '2018-10-09'),
+                ('severity', 'None'),
+                ('type', 'enhancement'),
+                ('reboot_suggested', 'False'),
+                ('title', 'Red Hat Enterprise Linux 6.10 Container Image Update'),  # noqa
+                ('further_info',
+                 'https://access.redhat.com/errata/RHEA-2018:2890')  # noqa
+            ]),
+            collections.OrderedDict([
+                ('system_id', '5'),
+                ('org_name', 'ORG'),
+                ('name', u'dev1.example.com'),
+                ('state', 'Available'),
+                ('errata_id', 'RHSA-2018:9999'),
+                ('issued', '2018-10-09'),
+                ('updated', '2018-10-09'),
+                ('severity', 'Low'),
+                ('type', 'security'),
+                ('reboot_suggested', 'False'),
+                ('title', 'Low: fake update'),
+                ('further_info', 'https://access.redhat.com/errata/RHSA-2018:9999')  # noqa
+            ]),
+        ]
+
+        self.applicable = []
+        for errata in self.available:
+            c = errata.copy()
+            c.update({"state": "Applicable"})
+            self.applicable.append(c)
+
+    def test_library_currency(self):
+        (
+            output,
+            available,
+            applicable
+        ) = sat6_currency.library_currency(
+            self.config,
+            'ORG',
+            'Library',
+            'Default Organization View'
+        )
+
+        self.assertEqual(
+            output,
+            [collections.OrderedDict([
+                ('system_id', 5),
+                ('org_name', u'ORG'),
+                ('name', u'dev1.example.com'),
+                ("total_available_security", 6),
+                ("critical", 1),
+                ("important", 2),
+                ("moderate", 2),
+                ("low", 1),
+                ("bug", 5),
+                ("enhancement", 2),
+                ('score', 96),
+                ("total_applicable_security", 6),
+                ("applicable_critical", 1),
+                ("applicable_important", 2),
+                ("applicable_moderate", 2),
+                ("applicable_low", 1),
+                ("applicable_bug", 5),
+                ("applicable_enhancement", 2),
+                ("applicable_score", 96),
+                ('content_view', u'RHEL 7 DevTools'),
+                ('content_view_publish_date', u'2018-10-09 21:31:44 UTC'),
+                ('lifecycle_environment', u'Development'),
+                ('subscription_os_release', u'7Server'),
+                ('os_release', u'RedHat 7.5'),
+                ('arch', u'x86_64'),
+                ('subscription_status', u'Fully entitled'),
+                ('comment', u'Development machine')
+            ])]
+        )
+
+        self.assertEqual(
+            available,
+            self.available
+        )
+
+        self.assertEqual(
+            applicable,
+            self.applicable
         )

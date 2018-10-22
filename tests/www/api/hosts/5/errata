@@ -1,0 +1,253 @@
+{
+    "error": null,
+    "page": 1,
+    "per_page": 20,
+    "results": [
+        {
+            "description": "The java-1.8.0-openjdk...",
+            "errata_id": "RHSA-2018:2942",
+            "hosts_applicable_count": 1,
+            "hosts_available_count": 0,
+            "id": 9302,
+            "issued": "2018-10-17",
+            "name": "Critical: java-1.8.0-openjdk security update",
+            "packages": [
+                "java-1.8.0-openjdk-1.8.0.191.b12-0.el7_5.i686",
+                "java-1.8.0-openjdk-src-debug-1.8.0.191.b12-0.el7_5.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "Critical",
+            "title": "Critical: java-1.8.0-openjdk security update",
+            "type": "security",
+            "updated": "2018-10-17",
+            "uuid": "39a821a6-23cd-4f92-b0d9-5f2baf8014be"
+        },
+        {
+            "description": "The virtio-win ...",
+            "errata_id": "RHBA-2018:2941",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9300,
+            "issued": "2018-10-17",
+            "name": "virtio-win bug fix update",
+            "packages": [
+                "virtio-win-1.9.4-2.el7.2.noarch"
+            ],
+            "reboot_suggested": false,
+            "severity": "None",
+            "title": "virtio-win bug fix update",
+            "type": "bugfix",
+            "updated": "2018-10-17",
+            "uuid": "b0d350f2-734a-472e-9b35-5d8a59215032"
+        },
+        {
+            "description": "Apache Tomcat is a servlet container for the Java Servlet and JavaServer Pages (JSP) technologies.\n\nSecurity Fix(es):\n\n* tomcat: A bug in the UTF-8 decoder can lead to DoS (CVE-2018-1336)\n\nFor more details about the security issue(s), including the impact, a CVSS score, and other related information, refer to the CVE page(s) listed in the References section.",
+            "errata_id": "RHSA-2018:2921",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9299,
+            "issued": "2018-10-16",
+            "name": "Important: tomcat security update",
+            "packages": [
+                "tomcat-7.0.76-8.el7_5.noarch",
+                "tomcat-webapps-7.0.76-8.el7_5.noarch"
+            ],
+            "reboot_suggested": false,
+            "severity": "Important",
+            "title": "Important: tomcat security update",
+            "type": "security",
+            "updated": "2018-10-16",
+            "uuid": "c498e7bc-c89f-4a89-9842-7a552ff88546"
+        },
+        {
+            "description": "The Ghostscript suite ...",
+            "errata_id": "RHSA-2018:2918",
+            "hosts_applicable_count": 1,
+            "hosts_available_count": 0,
+            "id": 9298,
+            "issued": "2018-10-16",
+            "name": "Important: ghostscript security update",
+            "packages": [
+                "ghostscript-9.07-29.el7_5.2.i686",
+                "ghostscript-gtk-9.07-29.el7_5.2.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "Important",
+            "title": "Important: ghostscript security update",
+            "type": "security",
+            "updated": "2018-10-16",
+            "uuid": "a845a6f4-c8be-4c14-8809-15e34785cd16"
+        },
+        {
+            "description": "Red Hat Satellite ...",
+            "errata_id": "RHBA-2018:2914",
+            "hosts_applicable_count": 1,
+            "hosts_available_count": 0,
+            "id": 9296,
+            "issued": "2018-10-11",
+            "name": "Satellite Tools 6.3.4 Async Bug Fix Update",
+            "packages": [
+                "python-pulp-agent-lib-2.13.4.14-1.el6sat.noarch",
+                "satellite-cli-6.3.4-2.el7sat.noarch"
+            ],
+            "reboot_suggested": false,
+            "severity": "None",
+            "title": "Satellite Tools 6.3.4 Async Bug Fix Update",
+            "type": "bugfix",
+            "updated": "2018-10-11",
+            "uuid": "7f35e39d-2240-422b-a426-9f5497ad7f17"
+        },
+        {
+            "description": "Oracle Automated Storage ...",
+            "errata_id": "RHEA-2018:2903",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9295,
+            "issued": "2018-10-10",
+            "name": "new package: kmod-oracleasm",
+            "packages": [
+                "kmod-oracleasm-2.0.8-16.el6_10.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "None",
+            "title": "new package: kmod-oracleasm",
+            "type": "enhancement",
+            "updated": "2018-10-10",
+            "uuid": "63307b78-8f43-4375-8e64-a71f45b25907"
+        },
+        {
+            "description": "The mailx packages ...",
+            "errata_id": "RHBA-2018:2894",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9294,
+            "issued": "2018-10-09",
+            "name": "mailx bug fix update",
+            "packages": [
+                "mailx-12.4-10.el6_10.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "None",
+            "title": "mailx bug fix update",
+            "type": "bugfix",
+            "updated": "2018-10-09",
+            "uuid": "c6b0d5b6-bf1e-47f8-a28f-1b3f8d2a7b8b"
+        },
+        {
+            "description": "The ypserv utility ...",
+            "errata_id": "RHBA-2018:2899",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9293,
+            "issued": "2018-10-09",
+            "name": "ypserv bug fix update",
+            "packages": [
+                "ypserv-2.19-32.el6_10.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "None",
+            "title": "ypserv bug fix update",
+            "type": "bugfix",
+            "updated": "2018-10-09",
+            "uuid": "779e387f-cc31-4e95-adf9-690fd7f36104"
+        },
+        {
+            "description": "The gcc-libraries ...",
+            "errata_id": "RHBA-2018:2893",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9292,
+            "issued": "2018-10-09",
+            "name": "gcc-libraries bug fix and enhancement update",
+            "packages": [
+                "libatomic-8.2.1-1.3.1.el6_10.i686",
+                "libquadmath-8.2.1-1.3.1.el6_10.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "None",
+            "title": "gcc-libraries bug fix and enhancement update",
+            "type": "bugfix",
+            "updated": "2018-10-09",
+            "uuid": "698fdaa8-0a95-470a-8b21-c4f4ae098db7"
+        },
+        {
+            "description": "Network Security Services ...",
+            "errata_id": "RHSA-2018:2898",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9288,
+            "issued": "2018-10-09",
+            "name": "Moderate: nss security update",
+            "packages": [
+                "nss-3.36.0-9.el6_10.i686",
+                "nss-tools-3.36.0-9.el6_10.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "Moderate",
+            "title": "Moderate: nss security update",
+            "type": "security",
+            "updated": "2018-10-09",
+            "uuid": "83219b50-ede1-4f5a-b1d6-8d01fafd0d7c"
+        },
+        {
+            "description": "GlusterFS is ...",
+            "errata_id": "RHSA-2018:2892",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9286,
+            "issued": "2018-10-09",
+            "name": "Moderate: glusterfs security, bug fix, and enhancement update",
+            "packages": [
+                "glusterfs-3.12.2-18.el6.x86_64",
+                "glusterfs-rdma-3.12.2-18.el6.x86_64"
+            ],
+            "reboot_suggested": false,
+            "severity": "Moderate",
+            "title": "Moderate: glusterfs security, bug fix, and enhancement update",
+            "type": "security",
+            "updated": "2018-10-09",
+            "uuid": "455d7275-0bb5-4c3b-ac0d-76f1e87329af"
+        },
+        {
+            "description": "The Red Hat Enterprise ...",
+            "errata_id": "RHEA-2018:2890",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9283,
+            "issued": "2018-10-09",
+            "name": "Red Hat Enterprise Linux 6.10 Container Image Update",
+            "packages": [],
+            "reboot_suggested": false,
+            "severity": "None",
+            "title": "Red Hat Enterprise Linux 6.10 Container Image Update",
+            "type": "enhancement",
+            "updated": "2018-10-09",
+            "uuid": "a46c9b93-6a8a-438a-a358-bb99292fd137"
+        },
+        {
+            "description": "fake errata",
+            "errata_id": "RHSA-2018:9999",
+            "hosts_applicable_count": 0,
+            "hosts_available_count": 0,
+            "id": 9999,
+            "issued": "2018-10-09",
+            "name": "Low: fake update",
+            "packages": [
+                "fake-0.0-1.el6_10.i686"
+            ],
+            "reboot_suggested": false,
+            "severity": "Low",
+            "title": "Low: fake update",
+            "type": "security",
+            "updated": "2018-10-09",
+            "uuid": "xxxxxxxx-1234-5678-abcd-xxxxxxxxxxxx"
+        }
+    ],
+    "search": null,
+    "sort": {
+        "by": "updated",
+        "order": "desc"
+    },
+    "subtotal": 9302,
+    "total": 9302
+}

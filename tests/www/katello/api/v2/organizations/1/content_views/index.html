@@ -1,0 +1,1042 @@
+{
+    "error": null,
+    "page": 1,
+    "per_page": 20,
+    "results": [
+        {
+            "activation_keys": [],
+            "component_ids": [],
+            "components": [],
+            "composite": false,
+            "content_view_components": [],
+            "created_at": "2018-08-03 02:36:29 UTC",
+            "default": true,
+            "description": null,
+            "environments": [
+                {
+                    "id": 1,
+                    "label": "Library",
+                    "name": "Library",
+                    "permissions": {
+                        "readable": true
+                    }
+                }
+            ],
+            "force_puppet_environment": false,
+            "id": 1,
+            "label": "Default_Organization_View",
+            "last_published": "2018-08-03 02:36:29 UTC",
+            "latest_version": "1.0",
+            "name": "Default Organization View",
+            "next_version": "1.0",
+            "organization": {
+                "id": 1,
+                "label": "ORG",
+                "name": "ORG"
+            },
+            "permissions": {
+                "destroy_content_views": true,
+                "edit_content_views": true,
+                "promote_or_remove_content_views": true,
+                "publish_content_views": true,
+                "view_content_views": true
+            },
+            "puppet_modules": [],
+            "repositories": [],
+            "repository_ids": [],
+            "updated_at": "2018-08-03 02:36:29 UTC",
+            "version_count": 1,
+            "versions": [
+                {
+                    "environment_ids": [
+                        1
+                    ],
+                    "id": 1,
+                    "published": "2018-08-03 02:36:29 UTC",
+                    "version": "1.0"
+                }
+            ]
+        },
+        {
+            "activation_keys": [
+                {
+                    "id": 2,
+                    "name": "RHEL 7 DevTools Development"
+                }
+            ],
+            "component_ids": [
+                36,
+                37
+            ],
+            "components": [
+                {
+                    "content_view": {
+                        "description": "RHEL 7Server SOE",
+                        "id": 2,
+                        "label": "cv-os-RHEL-7Server",
+                        "latest_version": "11.0",
+                        "name": "RHEL 7Server",
+                        "next_version": 12
+                    },
+                    "content_view_id": 2,
+                    "environments": [
+                        {
+                            "id": 1,
+                            "label": "Library",
+                            "name": "Library"
+                        }
+                    ],
+                    "id": 36,
+                    "name": "RHEL 7Server 11.0",
+                    "puppet_module_count": 3,
+                    "repositories": [
+                        {
+                            "id": 247,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                            "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                        },
+                        {
+                            "id": 248,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                            "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                        },
+                        {
+                            "id": 249,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                            "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                        },
+                        {
+                            "id": 250,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                            "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                        },
+                        {
+                            "id": 246,
+                            "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                            "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                        },
+                        {
+                            "id": 251,
+                            "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                            "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                        }
+                    ],
+                    "version": "11.0"
+                },
+                {
+                    "content_view": {
+                        "description": "RHEL 7 Software Development repositories",
+                        "id": 6,
+                        "label": "cv-app-RHEL-7-SoftwareCollections",
+                        "latest_version": "7.0",
+                        "name": "RHEL 7 SoftwareCollections",
+                        "next_version": 8
+                    },
+                    "content_view_id": 6,
+                    "environments": [
+                        {
+                            "id": 1,
+                            "label": "Library",
+                            "name": "Library"
+                        }
+                    ],
+                    "id": 37,
+                    "name": "RHEL 7 SoftwareCollections 7.0",
+                    "puppet_module_count": 0,
+                    "repositories": [
+                        {
+                            "id": 252,
+                            "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                            "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                        }
+                    ],
+                    "version": "7.0"
+                }
+            ],
+            "composite": true,
+            "content_view_components": [
+                {
+                    "composite_content_view": {
+                        "description": null,
+                        "id": 7,
+                        "label": "ccv-RHEL-7-DevTools",
+                        "latest_version": "7.0",
+                        "name": "RHEL 7 DevTools",
+                        "next_version": 8,
+                        "version_count": 7
+                    },
+                    "content_view": {
+                        "description": "RHEL 7Server SOE",
+                        "id": 2,
+                        "label": "cv-os-RHEL-7Server",
+                        "latest_version": "11.0",
+                        "name": "RHEL 7Server",
+                        "next_version": 12,
+                        "version_count": 12
+                    },
+                    "content_view_version": {
+                        "content_view": {
+                            "description": "RHEL 7Server SOE",
+                            "id": 2,
+                            "label": "cv-os-RHEL-7Server",
+                            "name": "RHEL 7Server"
+                        },
+                        "content_view_id": 2,
+                        "environments": [
+                            {
+                                "id": 1,
+                                "label": "Library",
+                                "name": "Library"
+                            }
+                        ],
+                        "id": 36,
+                        "name": "RHEL 7Server 11.0",
+                        "puppet_module_count": 3,
+                        "repositories": [
+                            {
+                                "id": 247,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                                "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                            },
+                            {
+                                "id": 248,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                                "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                            },
+                            {
+                                "id": 249,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                                "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                            },
+                            {
+                                "id": 250,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                                "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                            },
+                            {
+                                "id": 246,
+                                "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                                "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                            },
+                            {
+                                "id": 251,
+                                "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                                "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                            }
+                        ],
+                        "version": "11.0"
+                    },
+                    "created_at": "2018-10-09 21:31:44 UTC",
+                    "id": 11,
+                    "latest": false,
+                    "updated_at": "2018-10-09 21:31:44 UTC"
+                },
+                {
+                    "composite_content_view": {
+                        "description": null,
+                        "id": 7,
+                        "label": "ccv-RHEL-7-DevTools",
+                        "latest_version": "7.0",
+                        "name": "RHEL 7 DevTools",
+                        "next_version": 8,
+                        "version_count": 7
+                    },
+                    "content_view": {
+                        "description": "RHEL 7 Software Development repositories",
+                        "id": 6,
+                        "label": "cv-app-RHEL-7-SoftwareCollections",
+                        "latest_version": "7.0",
+                        "name": "RHEL 7 SoftwareCollections",
+                        "next_version": 8,
+                        "version_count": 7
+                    },
+                    "content_view_version": {
+                        "content_view": {
+                            "description": "RHEL 7 Software Development repositories",
+                            "id": 6,
+                            "label": "cv-app-RHEL-7-SoftwareCollections",
+                            "name": "RHEL 7 SoftwareCollections"
+                        },
+                        "content_view_id": 6,
+                        "environments": [
+                            {
+                                "id": 1,
+                                "label": "Library",
+                                "name": "Library"
+                            }
+                        ],
+                        "id": 37,
+                        "name": "RHEL 7 SoftwareCollections 7.0",
+                        "puppet_module_count": 0,
+                        "repositories": [
+                            {
+                                "id": 252,
+                                "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                                "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                            }
+                        ],
+                        "version": "7.0"
+                    },
+                    "created_at": "2018-10-09 21:31:44 UTC",
+                    "id": 12,
+                    "latest": false,
+                    "updated_at": "2018-10-09 21:31:44 UTC"
+                }
+            ],
+            "created_at": "2018-08-22 23:02:42 UTC",
+            "default": false,
+            "description": null,
+            "environments": [
+                {
+                    "id": 1,
+                    "label": "Library",
+                    "name": "Library",
+                    "permissions": {
+                        "readable": true
+                    }
+                },
+                {
+                    "id": 2,
+                    "label": "Dev",
+                    "name": "Development",
+                    "permissions": {
+                        "readable": true
+                    }
+                }
+            ],
+            "force_puppet_environment": false,
+            "id": 7,
+            "label": "ccv-RHEL-7-DevTools",
+            "last_published": "2018-10-09 21:31:44 UTC",
+            "latest_version": "7.0",
+            "name": "RHEL 7 DevTools",
+            "next_version": "8.0",
+            "organization": {
+                "id": 1,
+                "label": "ORG",
+                "name": "ORG"
+            },
+            "permissions": {
+                "destroy_content_views": true,
+                "edit_content_views": true,
+                "promote_or_remove_content_views": true,
+                "publish_content_views": true,
+                "view_content_views": true
+            },
+            "puppet_modules": [],
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 247,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 248,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 249,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 250,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 246,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 251,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 252,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                }
+            ],
+            "repository_ids": [
+                247,
+                248,
+                249,
+                250,
+                246,
+                251,
+                252
+            ],
+            "updated_at": "2018-10-09 21:31:44 UTC",
+            "version_count": 7,
+            "versions": [
+                {
+                    "environment_ids": [],
+                    "id": 16,
+                    "published": "2018-08-22 23:02:44 UTC",
+                    "version": "1.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 17,
+                    "published": "2018-08-22 23:05:23 UTC",
+                    "version": "2.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 21,
+                    "published": "2018-09-05 23:59:46 UTC",
+                    "version": "3.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 24,
+                    "published": "2018-09-10 23:05:35 UTC",
+                    "version": "4.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 30,
+                    "published": "2018-09-12 03:40:47 UTC",
+                    "version": "5.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 34,
+                    "published": "2018-09-12 23:57:34 UTC",
+                    "version": "6.0"
+                },
+                {
+                    "environment_ids": [
+                        1,
+                        2
+                    ],
+                    "id": 38,
+                    "published": "2018-10-09 21:31:44 UTC",
+                    "version": "7.0"
+                }
+            ]
+        },
+        {
+            "activation_keys": [],
+            "component_ids": [],
+            "components": [],
+            "composite": false,
+            "content_view_components": [],
+            "created_at": "2018-08-07 05:35:27 UTC",
+            "default": false,
+            "description": "RHEL 7Server SOE",
+            "environments": [
+                {
+                    "id": 1,
+                    "label": "Library",
+                    "name": "Library",
+                    "permissions": {
+                        "readable": true
+                    }
+                }
+            ],
+            "force_puppet_environment": false,
+            "id": 2,
+            "label": "cv-os-RHEL-7Server",
+            "last_published": "2018-10-09 21:15:57 UTC",
+            "latest_version": "11.0",
+            "name": "RHEL 7Server",
+            "next_version": "12.0",
+            "organization": {
+                "id": 1,
+                "label": "ORG",
+                "name": "ORG"
+            },
+            "permissions": {
+                "destroy_content_views": true,
+                "edit_content_views": true,
+                "promote_or_remove_content_views": true,
+                "publish_content_views": true,
+                "view_content_views": true
+            },
+            "puppet_modules": [
+                {
+                    "author": "puppetlabs",
+                    "created_at": "2018-08-18 06:39:25 UTC",
+                    "id": 1,
+                    "name": "motd",
+                    "updated_at": "2018-08-18 06:39:25 UTC",
+                    "uuid": null
+                },
+                {
+                    "author": "puppetlabs",
+                    "created_at": "2018-08-18 06:39:34 UTC",
+                    "id": 2,
+                    "name": "registry",
+                    "updated_at": "2018-08-18 06:39:34 UTC",
+                    "uuid": null
+                },
+                {
+                    "author": "puppetlabs",
+                    "created_at": "2018-08-18 06:39:45 UTC",
+                    "id": 3,
+                    "name": "stdlib",
+                    "updated_at": "2018-08-18 06:39:45 UTC",
+                    "uuid": null
+                }
+            ],
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 3,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 4,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 12,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 11,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 9,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 81,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                }
+            ],
+            "repository_ids": [
+                3,
+                4,
+                12,
+                11,
+                9,
+                81
+            ],
+            "updated_at": "2018-10-09 21:15:57 UTC",
+            "version_count": 12,
+            "versions": [
+                {
+                    "environment_ids": [],
+                    "id": 2,
+                    "published": "2018-08-07 05:58:57 UTC",
+                    "version": "1.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 5,
+                    "published": "2018-08-09 05:22:40 UTC",
+                    "version": "3.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 7,
+                    "published": "2018-08-16 06:17:38 UTC",
+                    "version": "3.1"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 9,
+                    "published": "2018-08-16 23:11:44 UTC",
+                    "version": "4.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 11,
+                    "published": "2018-08-16 23:45:58 UTC",
+                    "version": "4.1"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 13,
+                    "published": "2018-08-18 06:54:46 UTC",
+                    "version": "5.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 18,
+                    "published": "2018-09-05 04:14:55 UTC",
+                    "version": "6.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 22,
+                    "published": "2018-09-10 22:48:12 UTC",
+                    "version": "7.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 26,
+                    "published": "2018-09-10 23:10:09 UTC",
+                    "version": "8.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 28,
+                    "published": "2018-09-12 00:10:13 UTC",
+                    "version": "9.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 32,
+                    "published": "2018-09-12 23:41:48 UTC",
+                    "version": "10.0"
+                },
+                {
+                    "environment_ids": [
+                        1
+                    ],
+                    "id": 36,
+                    "published": "2018-10-09 21:15:57 UTC",
+                    "version": "11.0"
+                }
+            ]
+        },
+        {
+            "activation_keys": [
+                {
+                    "id": 1,
+                    "name": "RHEL 7 SOE Development"
+                }
+            ],
+            "component_ids": [
+                36
+            ],
+            "components": [
+                {
+                    "content_view": {
+                        "description": "RHEL 7Server SOE",
+                        "id": 2,
+                        "label": "cv-os-RHEL-7Server",
+                        "latest_version": "11.0",
+                        "name": "RHEL 7Server",
+                        "next_version": 12
+                    },
+                    "content_view_id": 2,
+                    "environments": [
+                        {
+                            "id": 1,
+                            "label": "Library",
+                            "name": "Library"
+                        }
+                    ],
+                    "id": 36,
+                    "name": "RHEL 7Server 11.0",
+                    "puppet_module_count": 3,
+                    "repositories": [
+                        {
+                            "id": 247,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                            "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                        },
+                        {
+                            "id": 248,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                            "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                        },
+                        {
+                            "id": 249,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                            "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                        },
+                        {
+                            "id": 250,
+                            "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                            "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                        },
+                        {
+                            "id": 246,
+                            "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                            "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                        },
+                        {
+                            "id": 251,
+                            "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                            "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                        }
+                    ],
+                    "version": "11.0"
+                }
+            ],
+            "composite": true,
+            "content_view_components": [
+                {
+                    "composite_content_view": {
+                        "description": null,
+                        "id": 4,
+                        "label": "ccv-RHEL-7-SOE",
+                        "latest_version": "9.0",
+                        "name": "RHEL 7 SOE",
+                        "next_version": 10,
+                        "version_count": 11
+                    },
+                    "content_view": {
+                        "description": "RHEL 7Server SOE",
+                        "id": 2,
+                        "label": "cv-os-RHEL-7Server",
+                        "latest_version": "11.0",
+                        "name": "RHEL 7Server",
+                        "next_version": 12,
+                        "version_count": 12
+                    },
+                    "content_view_version": {
+                        "content_view": {
+                            "description": "RHEL 7Server SOE",
+                            "id": 2,
+                            "label": "cv-os-RHEL-7Server",
+                            "name": "RHEL 7Server"
+                        },
+                        "content_view_id": 2,
+                        "environments": [
+                            {
+                                "id": 1,
+                                "label": "Library",
+                                "name": "Library"
+                            }
+                        ],
+                        "id": 36,
+                        "name": "RHEL 7Server 11.0",
+                        "puppet_module_count": 3,
+                        "repositories": [
+                            {
+                                "id": 247,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                                "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                            },
+                            {
+                                "id": 248,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                                "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                            },
+                            {
+                                "id": 249,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                                "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                            },
+                            {
+                                "id": 250,
+                                "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                                "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                            },
+                            {
+                                "id": 246,
+                                "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                                "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                            },
+                            {
+                                "id": 251,
+                                "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                                "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                            }
+                        ],
+                        "version": "11.0"
+                    },
+                    "created_at": "2018-10-09 21:31:47 UTC",
+                    "id": 13,
+                    "latest": false,
+                    "updated_at": "2018-10-09 21:31:47 UTC"
+                }
+            ],
+            "created_at": "2018-08-07 06:58:56 UTC",
+            "default": false,
+            "description": null,
+            "environments": [
+                {
+                    "id": 1,
+                    "label": "Library",
+                    "name": "Library",
+                    "permissions": {
+                        "readable": true
+                    }
+                },
+                {
+                    "id": 2,
+                    "label": "Dev",
+                    "name": "Development",
+                    "permissions": {
+                        "readable": true
+                    }
+                },
+                {
+                    "id": 3,
+                    "label": "NonProd",
+                    "name": "Non-Production",
+                    "permissions": {
+                        "readable": true
+                    }
+                }
+            ],
+            "force_puppet_environment": false,
+            "id": 4,
+            "label": "ccv-RHEL-7-SOE",
+            "last_published": "2018-10-09 21:31:48 UTC",
+            "latest_version": "9.0",
+            "name": "RHEL 7 SOE",
+            "next_version": "10.0",
+            "organization": {
+                "id": 1,
+                "label": "ORG",
+                "name": "ORG"
+            },
+            "permissions": {
+                "destroy_content_views": true,
+                "edit_content_views": true,
+                "promote_or_remove_content_views": true,
+                "publish_content_views": true,
+                "view_content_views": true
+            },
+            "puppet_modules": [],
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 247,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 248,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 249,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 250,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 246,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 251,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                }
+            ],
+            "repository_ids": [
+                247,
+                248,
+                249,
+                250,
+                246,
+                251
+            ],
+            "updated_at": "2018-10-09 21:31:48 UTC",
+            "version_count": 11,
+            "versions": [
+                {
+                    "environment_ids": [],
+                    "id": 3,
+                    "published": "2018-08-07 07:06:15 UTC",
+                    "version": "1.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 6,
+                    "published": "2018-08-09 05:32:29 UTC",
+                    "version": "2.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 8,
+                    "published": "2018-08-16 06:17:39 UTC",
+                    "version": "2.1"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 10,
+                    "published": "2018-08-16 23:24:13 UTC",
+                    "version": "3.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 12,
+                    "published": "2018-08-16 23:45:59 UTC",
+                    "version": "3.1"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 14,
+                    "published": "2018-08-18 23:37:36 UTC",
+                    "version": "4.0"
+                },
+                {
+                    "environment_ids": [
+                        3
+                    ],
+                    "id": 20,
+                    "published": "2018-09-05 23:16:32 UTC",
+                    "version": "5.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 25,
+                    "published": "2018-09-10 23:05:39 UTC",
+                    "version": "6.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 31,
+                    "published": "2018-09-12 03:41:29 UTC",
+                    "version": "7.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 35,
+                    "published": "2018-09-12 23:57:37 UTC",
+                    "version": "8.0"
+                },
+                {
+                    "environment_ids": [
+                        1,
+                        2
+                    ],
+                    "id": 39,
+                    "published": "2018-10-09 21:31:48 UTC",
+                    "version": "9.0"
+                }
+            ]
+        },
+        {
+            "activation_keys": [],
+            "component_ids": [],
+            "components": [],
+            "composite": false,
+            "content_view_components": [],
+            "created_at": "2018-08-22 22:38:11 UTC",
+            "default": false,
+            "description": "RHEL 7 Software Development repositories",
+            "environments": [
+                {
+                    "id": 1,
+                    "label": "Library",
+                    "name": "Library",
+                    "permissions": {
+                        "readable": true
+                    }
+                }
+            ],
+            "force_puppet_environment": false,
+            "id": 6,
+            "label": "cv-app-RHEL-7-SoftwareCollections",
+            "last_published": "2018-10-09 21:16:12 UTC",
+            "latest_version": "7.0",
+            "name": "RHEL 7 SoftwareCollections",
+            "next_version": "8.0",
+            "organization": {
+                "id": 1,
+                "label": "ORG",
+                "name": "ORG"
+            },
+            "permissions": {
+                "destroy_content_views": true,
+                "edit_content_views": true,
+                "promote_or_remove_content_views": true,
+                "publish_content_views": true,
+                "view_content_views": true
+            },
+            "puppet_modules": [],
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 124,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                }
+            ],
+            "repository_ids": [
+                124
+            ],
+            "updated_at": "2018-10-09 21:16:12 UTC",
+            "version_count": 7,
+            "versions": [
+                {
+                    "environment_ids": [],
+                    "id": 15,
+                    "published": "2018-08-22 22:57:20 UTC",
+                    "version": "1.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 19,
+                    "published": "2018-09-05 23:09:31 UTC",
+                    "version": "2.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 23,
+                    "published": "2018-09-10 22:48:26 UTC",
+                    "version": "3.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 27,
+                    "published": "2018-09-10 23:10:47 UTC",
+                    "version": "4.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 29,
+                    "published": "2018-09-12 00:10:30 UTC",
+                    "version": "5.0"
+                },
+                {
+                    "environment_ids": [],
+                    "id": 33,
+                    "published": "2018-09-12 23:42:03 UTC",
+                    "version": "6.0"
+                },
+                {
+                    "environment_ids": [
+                        1
+                    ],
+                    "id": 37,
+                    "published": "2018-10-09 21:16:12 UTC",
+                    "version": "7.0"
+                }
+            ]
+        }
+    ],
+    "search": null,
+    "sort": {
+        "by": "name",
+        "order": "asc"
+    },
+    "subtotal": 5,
+    "total": 5
+}
