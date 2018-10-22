@@ -14,6 +14,7 @@ class TestLoadConfig(unittest.TestCase):
         self.directory = os.path.abspath(os.path.dirname(__file__))
 
     def test_loadconfig_good(self):
+        """Test that a good Hammer config file is loaded correctly"""
         with open(os.path.join(self.directory, 'config_good.yaml'), 'r') as f:
             (server, username, password) = sat6_currency.loadconfig(f)
             self.assertEqual(server, 'https://example.com/')
@@ -22,6 +23,7 @@ class TestLoadConfig(unittest.TestCase):
 
     def test_loadconfig_bare(self):
         with open(os.path.join(self.directory, 'config_bare.yaml'), 'r') as f:
+            """Test that a Hammer config file with no values is loaded"""
             (server, username, password) = sat6_currency.loadconfig(f)
             self.assertEqual(server, None)
             self.assertEqual(username, None)
@@ -29,6 +31,7 @@ class TestLoadConfig(unittest.TestCase):
 
     def test_loadconfig_empty(self):
         with open('/dev/null', 'r') as f:
+            """Test that an empty Hammer config file is loaded"""
             (server, username, password) = sat6_currency.loadconfig(f)
             self.assertEqual(server, None)
             self.assertEqual(username, None)
@@ -56,9 +59,11 @@ class TestOutput(unittest.TestCase):
         ]
 
     def test_output_csv_empty(self):
+        """Test that an empty list returns an empty string"""
         self.assertEqual(sat6_currency.output_csv([]), '')
 
     def test_output_csv(self):
+        """Test that a list of OrderedDicts returns a CSV"""
         self.assertEqual(
             sat6_currency.output_csv(self.output),
             "name,number,colour\n"
@@ -68,9 +73,11 @@ class TestOutput(unittest.TestCase):
         )
 
     def test_output_json_empty(self):
+        """Test that an empty list returns JSON"""
         self.assertEqual(sat6_currency.output_json([]), '[]')
 
     def test_output_json(self):
+        """Test that a list of OrderedDicts returns JSON"""
         self.assertEqual(
             sat6_currency.output_json(self.output),
             '[\n'
@@ -93,9 +100,11 @@ class TestOutput(unittest.TestCase):
         )
 
     def test_output_yaml_empty(self):
+        """Test that an empty list returns YAML"""
         self.assertEqual(sat6_currency.output_yaml([]), '--- []\n')
 
     def test_output_yaml(self):
+        """Test that a list of OrderedDicts returns YAML"""
         self.assertEqual(
             sat6_currency.output_yaml(self.output),
             "---\n"
@@ -111,6 +120,7 @@ class TestOutput(unittest.TestCase):
         )
 
     def test_output_format(self):
+        """Test that the output_format function returns the correct function"""
         self.assertEqual(
             sat6_currency.output_format('csv'),
             sat6_currency.output_csv
@@ -127,12 +137,14 @@ class TestOutput(unittest.TestCase):
 
 class TestSearchString(unittest.TestCase):
     def test_search_string_empty(self):
+        """Test that an empty dict returns a bare search query"""
         self.assertEqual(
             sat6_currency.search_string({}),
             "?search="
         )
 
     def test_search_string_one(self):
+        """Test that a dict with one pair returns a search query"""
         self.assertEqual(
             sat6_currency.search_string({
                 "key1": "value1",
@@ -141,6 +153,7 @@ class TestSearchString(unittest.TestCase):
         )
 
     def test_search_string_two(self):
+        """Test that a dict returns a search query"""
         self.assertEqual(
             sat6_currency.search_string(
                 collections.OrderedDict([
@@ -154,21 +167,25 @@ class TestSearchString(unittest.TestCase):
 
 class TestSearchQueries(unittest.TestCase):
     def test_search_queries_empty(self):
+        """Test that an empty string returns an empty dict"""
         self.assertEqual(sat6_currency.search_queries(""), {})
 
     def test_search_queries_noquery(self):
+        """Test that a bare search query returns an empty dict"""
         self.assertEqual(
             sat6_currency.search_queries("?Search="),
             {}
         )
 
     def test_search_queries_one(self):
+        """Test that a search query with one pair returns a dict"""
         self.assertEqual(
             sat6_currency.search_queries("?search=key1=value1"),
             {"key1": "value1"}
         )
 
     def test_search_queries_two(self):
+        """Test that a search query returns a dict"""
         self.assertEqual(
             sat6_currency.search_queries("?search=key1=value1,key2=value2"),
             {
@@ -178,12 +195,14 @@ class TestSearchQueries(unittest.TestCase):
         )
 
     def test_search_queries_emptyvalue(self):
+        """Test search query with a blank value"""
         self.assertEqual(
             sat6_currency.search_queries("?search=key1="),
             {"key1": ""}
         )
 
     def test_search_queries_novalue(self):
+        """Test search query with only a key"""
         self.assertEqual(
             sat6_currency.search_queries("?search=key1"),
             {"key1": ""}
@@ -192,24 +211,28 @@ class TestSearchQueries(unittest.TestCase):
 
 class TestScore(unittest.TestCase):
     def test_score_simple_none(self):
+        """Test that input of None returns 0"""
         self.assertEqual(
             sat6_currency.score_simple(None, None, None),
             0
         )
 
     def test_score_simple(self):
+        """Test the simple score"""
         self.assertEqual(
             sat6_currency.score_simple(1, 1, 1),
             8 + 2 + 1
         )
 
     def test_score_advanced_none(self):
+        """Test that input of None returns 0"""
         self.assertEqual(
             sat6_currency.score_advanced(None, None, None, None, None, None),
             0
         )
 
     def test_score_advanced(self):
+        """Test the advanced score"""
         self.assertEqual(
             sat6_currency.score_advanced(1, 1, 1, 1, 1, 1),
             32 + 16 + 8 + 4 + 2 + 1
@@ -218,6 +241,7 @@ class TestScore(unittest.TestCase):
 
 class TestClass(unittest.TestCase):
     def test_class_url(self):
+        """Test the class initialisation"""
         config = sat6_currency.SatelliteServerConfig(
             'https://satellite.example.com',
             'Admin',
@@ -226,6 +250,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(config.url, 'https://satellite.example.com')
 
     def test_class_url_http(self):
+        """Test that a HTTP url is overridden by ssl_verify=True"""
         config = sat6_currency.SatelliteServerConfig(
             'http://satellite.example.com',
             'Admin',
@@ -234,6 +259,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(config.url, 'https://satellite.example.com')
 
     def test_class_url_slash(self):
+        """Test that trailing slash in URL is stripped"""
         config = sat6_currency.SatelliteServerConfig(
             'https://satellite.example.com',
             'Admin',
@@ -242,6 +268,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(config.url, 'https://satellite.example.com')
 
     def test_class_url_port(self):
+        """Test a URL with port specified"""
         config = sat6_currency.SatelliteServerConfig(
             'https://satellite.example.com:8443',
             'Admin',
@@ -250,6 +277,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(config.url, 'https://satellite.example.com:8443')
 
     def test_class_url_port_slash(self):
+        """Test that trailing slash in URL is stripped when port specified"""
         config = sat6_currency.SatelliteServerConfig(
             'https://satellite.example.com:8443/',
             'Admin',
@@ -258,6 +286,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(config.url, 'https://satellite.example.com:8443')
 
     def test_class_host(self):
+        """Test specifying hostname"""
         config = sat6_currency.SatelliteServerConfig(
             'satellite.example.com',
             'Admin',
@@ -266,6 +295,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(config.url, 'https://satellite.example.com')
 
     def test_class_host_port(self):
+        """Test specifying hostname and port"""
         config = sat6_currency.SatelliteServerConfig(
             'satellite.example.com:8443',
             'Admin',
@@ -275,6 +305,7 @@ class TestClass(unittest.TestCase):
 
 
 class TestCaseWithMock(unittest.TestCase):
+    """Subclass of TestCase which serves a Mocked Satellite API"""
     def setUpMockAPI(self):
         self.web_port = mock_satellite_api.get_free_port()
         self.hostname = 'localhost'
@@ -298,6 +329,7 @@ class TestCaseWithMock(unittest.TestCase):
 
 class TestAPI(TestCaseWithMock):
     def test_get_with_json_bad_host(self):
+        """Test that a ConnectionError is raised for an unreachable host"""
         with self.assertRaises(requests.ConnectionError):
             sat6_currency.get_with_json(
                 self.config,
@@ -305,6 +337,7 @@ class TestAPI(TestCaseWithMock):
             )
 
     def test_get_with_json_404(self):
+        """Test that a 404 is returned for a missing page"""
         with self.assertRaises(requests.ConnectionError):
             sat6_currency.get_with_json(
                 self.config,
@@ -312,6 +345,7 @@ class TestAPI(TestCaseWithMock):
             )
 
     def test_get_with_json_baz(self):
+        """Test that a datastructure is returned when JSON is requested"""
         self.assertEqual(
             sat6_currency.get_with_json(
                 self.config,
@@ -323,6 +357,7 @@ class TestAPI(TestCaseWithMock):
 
 class TestSimpleCurrency(TestCaseWithMock):
     def test_simple_currency(self):
+        """Test the simple_currency report"""
         self.assertEqual(
             sat6_currency.simple_currency(self.config),
             [collections.OrderedDict([
@@ -347,6 +382,7 @@ class TestSimpleCurrency(TestCaseWithMock):
 
 class TestAdvancedCurrency(TestCaseWithMock):
     def test_advanced_currency(self):
+        """Test the advanced_currency report"""
         self.assertEqual(
             sat6_currency.advanced_currency(self.config),
             [collections.OrderedDict([
@@ -598,6 +634,7 @@ class TestLibraryCurrency(TestCaseWithMock):
             self.applicable.append(c)
 
     def test_library_currency(self):
+        """Test the library_currency report"""
         (
             output,
             available,
