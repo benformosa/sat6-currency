@@ -412,9 +412,6 @@ def library_currency(config, org, env, cv, search=""):
     applicable: list of errata which are applicable
     """
 
-    if org is None:
-        raise RuntimeError("Organization must be specified for Library report")
-
     output = []
     available = []
     applicable = []

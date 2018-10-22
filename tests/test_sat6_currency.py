@@ -375,6 +375,36 @@ class TestAdvancedCurrency(TestCaseWithMock):
 class TestLibraryCurrency(TestCaseWithMock):
     def setUp(self):
         super(TestLibraryCurrency, self).setUp()
+        self.output = [collections.OrderedDict([
+            ('system_id', 5),
+            ('org_name', u'ORG'),
+            ('name', u'dev1.example.com'),
+            ("total_available_security", 6),
+            ("critical", 1),
+            ("important", 2),
+            ("moderate", 2),
+            ("low", 1),
+            ("bug", 5),
+            ("enhancement", 2),
+            ('score', 96),
+            ("total_applicable_security", 6),
+            ("applicable_critical", 1),
+            ("applicable_important", 2),
+            ("applicable_moderate", 2),
+            ("applicable_low", 1),
+            ("applicable_bug", 5),
+            ("applicable_enhancement", 2),
+            ("applicable_score", 96),
+            ('content_view', u'RHEL 7 DevTools'),
+            ('content_view_publish_date', u'2018-10-09 21:31:44 UTC'),
+            ('lifecycle_environment', u'Development'),
+            ('subscription_os_release', u'7Server'),
+            ('os_release', u'RedHat 7.5'),
+            ('arch', u'x86_64'),
+            ('subscription_status', u'Fully entitled'),
+            ('comment', u'Development machine')
+        ])]
+
         self.available = [
             collections.OrderedDict([
                 ("system_id", '5'),
@@ -581,42 +611,38 @@ class TestLibraryCurrency(TestCaseWithMock):
 
         self.assertEqual(
             output,
-            [collections.OrderedDict([
-                ('system_id', 5),
-                ('org_name', u'ORG'),
-                ('name', u'dev1.example.com'),
-                ("total_available_security", 6),
-                ("critical", 1),
-                ("important", 2),
-                ("moderate", 2),
-                ("low", 1),
-                ("bug", 5),
-                ("enhancement", 2),
-                ('score', 96),
-                ("total_applicable_security", 6),
-                ("applicable_critical", 1),
-                ("applicable_important", 2),
-                ("applicable_moderate", 2),
-                ("applicable_low", 1),
-                ("applicable_bug", 5),
-                ("applicable_enhancement", 2),
-                ("applicable_score", 96),
-                ('content_view', u'RHEL 7 DevTools'),
-                ('content_view_publish_date', u'2018-10-09 21:31:44 UTC'),
-                ('lifecycle_environment', u'Development'),
-                ('subscription_os_release', u'7Server'),
-                ('os_release', u'RedHat 7.5'),
-                ('arch', u'x86_64'),
-                ('subscription_status', u'Fully entitled'),
-                ('comment', u'Development machine')
-            ])]
+            self.output
         )
-
         self.assertEqual(
             available,
             self.available
         )
+        self.assertEqual(
+            applicable,
+            self.applicable
+        )
 
+    def test_library_currency_noneorg(self):
+        """Test the library_currency report when Org is specified as None"""
+        (
+            output,
+            available,
+            applicable
+        ) = sat6_currency.library_currency(
+            self.config,
+            None,
+            'Library',
+            'Default Organization View'
+        )
+
+        self.assertEqual(
+            output,
+            self.output
+        )
+        self.assertEqual(
+            available,
+            self.available
+        )
         self.assertEqual(
             applicable,
             self.applicable
