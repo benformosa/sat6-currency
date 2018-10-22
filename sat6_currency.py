@@ -6,7 +6,6 @@ Satellite 6 version of 'spacewalk-report system-currency'
 from __future__ import print_function
 import argparse
 import collections
-import errno
 import getpass
 import json
 import os
@@ -80,20 +79,14 @@ def get_with_json(config, location,
             headers={'content-type': 'application/json'}
         )
 
-    except requests.ConnectionError:
-        raise requests.ConnectionError(
-            errno.ECONNREFUSED,
-            "Error: Couldn't connect to the API, check connection or url",
-            location
-        )
+    except requests.ConnectionError as e:
+        e.args += ("Error GETting {}".format(location),)
+        raise e
     if result.ok:
         return result.json()
     else:
         raise requests.ConnectionError(
-            errno.ECONNREFUSED,
-            "Error connecting to the API. HTTP Status: {}".format(
-                str(result.status_code)),
-            location
+            "GET {} returned status {}".format(location, result.status_code)
         )
 
 
