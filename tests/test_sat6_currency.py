@@ -261,7 +261,7 @@ class TestClass(unittest.TestCase):
     def test_class_url_slash(self):
         """Test that trailing slash in URL is stripped"""
         config = sat6_currency.SatelliteServerConfig(
-            'https://satellite.example.com',
+            'https://satellite.example.com/',
             'Admin',
             'sw0rdfi$h',
         )
