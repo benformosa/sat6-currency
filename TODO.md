@@ -7,7 +7,7 @@
 
 * [ ] Add option to list traces. use /api/hosts/{}/traces {"total":x,...}
 
-* [ ] Tests using unittest
+* [x] Tests using unittest
 
 * [ ] Group up arguments for different scenarios (e.g. requiring organization for library)
 
