@@ -1,0 +1,748 @@
+{
+    "error": null,
+    "page": 1,
+    "per_page": 20,
+    "results": [
+        {
+            "active_history": [],
+            "composite_content_view_ids": [],
+            "content_view": {
+                "id": 7,
+                "label": "ccv-RHEL-7-DevTools",
+                "name": "RHEL 7 DevTools"
+            },
+            "content_view_id": 7,
+            "created_at": "2018-10-09 21:31:44 UTC",
+            "default": false,
+            "description": null,
+            "docker_manifest_count": 0,
+            "docker_tag_count": 0,
+            "environments": [
+                {
+                    "activation_key_count": 0,
+                    "host_count": 0,
+                    "id": 1,
+                    "label": "Library",
+                    "name": "Library",
+                    "permissions": {
+                        "all_hosts_editable": true,
+                        "all_keys_editable": true,
+                        "promotable_or_removable": true,
+                        "readable": true
+                    },
+                    "puppet_environment_id": 6
+                },
+                {
+                    "activation_key_count": 1,
+                    "host_count": 1,
+                    "id": 2,
+                    "label": "Dev",
+                    "name": "Development",
+                    "permissions": {
+                        "all_hosts_editable": true,
+                        "all_keys_editable": true,
+                        "promotable_or_removable": true,
+                        "readable": true
+                    },
+                    "puppet_environment_id": 7
+                }
+            ],
+            "errata_counts": {
+                "bugfix": 2494,
+                "enhancement": 745,
+                "security": 790,
+                "total": 4029
+            },
+            "file_count": 0,
+            "id": 38,
+            "katello_content_views": [],
+            "last_event": {
+                "action": "promotion",
+                "created_at": "2018-10-09 22:03:11 UTC",
+                "description": null,
+                "environment": {
+                    "id": 2,
+                    "name": "Development"
+                },
+                "publish": false,
+                "status": "successful",
+                "task": {
+                    "cli_example": null,
+                    "ended_at": "2018-10-09 22:03:23 UTC",
+                    "humanized": {
+                        "action": "Promote",
+                        "errors": [],
+                        "input": [
+                            [
+                                "content_view",
+                                {
+                                    "link": "#/content_views/7/versions",
+                                    "text": "content view 'RHEL 7 DevTools'"
+                                }
+                            ],
+                            [
+                                "organization",
+                                {
+                                    "link": "/organizations/1/edit",
+                                    "text": "organisation 'ORG'"
+                                }
+                            ]
+                        ],
+                        "output": ""
+                    },
+                    "id": "d7864e05-ccd6-4b65-b0da-60073bdbdadc",
+                    "input": {
+                        "content_view": {
+                            "id": 7,
+                            "label": "ccv-RHEL-7-DevTools",
+                            "name": "RHEL 7 DevTools"
+                        },
+                        "current_user_id": 4,
+                        "environments": [
+                            "Development"
+                        ],
+                        "organization": {
+                            "id": 1,
+                            "label": "ORG",
+                            "name": "ORG"
+                        },
+                        "services_checked": [
+                            "pulp",
+                            "pulp_auth",
+                            "candlepin",
+                            "candlepin_auth"
+                        ]
+                    },
+                    "label": "Actions::Katello::ContentView::Promote",
+                    "output": {},
+                    "pending": false,
+                    "progress": 1.0,
+                    "result": "success",
+                    "started_at": "2018-10-09 22:03:11 UTC",
+                    "state": "stopped",
+                    "username": "admin"
+                },
+                "updated_at": "2018-10-09 22:03:23 UTC",
+                "user": "admin",
+                "version": "7.0",
+                "version_id": 38
+            },
+            "major": 7,
+            "minor": 0,
+            "name": "RHEL 7 DevTools 7.0",
+            "ostree_branch_count": 0,
+            "package_count": 48038,
+            "package_group_count": 0,
+            "permissions": {
+                "deletable": true
+            },
+            "puppet_module_count": 3,
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 253,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 254,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 255,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 256,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 257,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 258,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 259,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                }
+            ],
+            "srpm_count": 0,
+            "updated_at": "2018-10-09 21:31:44 UTC",
+            "version": "7.0"
+        },
+        {
+            "active_history": [],
+            "composite_content_view_ids": [],
+            "content_view": {
+                "id": 7,
+                "label": "ccv-RHEL-7-DevTools",
+                "name": "RHEL 7 DevTools"
+            },
+            "content_view_id": 7,
+            "created_at": "2018-09-12 23:57:34 UTC",
+            "default": false,
+            "description": null,
+            "docker_manifest_count": 0,
+            "docker_tag_count": 0,
+            "environments": [],
+            "errata_counts": {
+                "bugfix": 2473,
+                "enhancement": 744,
+                "security": 778,
+                "total": 3995
+            },
+            "file_count": 0,
+            "id": 34,
+            "katello_content_views": [],
+            "last_event": {
+                "action": "promotion",
+                "created_at": "2018-09-13 00:06:25 UTC",
+                "description": null,
+                "environment": {
+                    "id": 2,
+                    "name": "Development"
+                },
+                "publish": false,
+                "status": "successful",
+                "task": null,
+                "updated_at": "2018-09-13 00:06:36 UTC",
+                "user": "admin",
+                "version": "6.0",
+                "version_id": 34
+            },
+            "major": 6,
+            "minor": 0,
+            "name": "RHEL 7 DevTools 6.0",
+            "ostree_branch_count": 0,
+            "package_count": 47733,
+            "package_group_count": 0,
+            "permissions": {
+                "deletable": true
+            },
+            "puppet_module_count": 3,
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 235,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 229,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 230,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 231,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 232,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 233,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 234,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                }
+            ],
+            "srpm_count": 0,
+            "updated_at": "2018-09-12 23:57:34 UTC",
+            "version": "6.0"
+        },
+        {
+            "active_history": [],
+            "composite_content_view_ids": [],
+            "content_view": {
+                "id": 7,
+                "label": "ccv-RHEL-7-DevTools",
+                "name": "RHEL 7 DevTools"
+            },
+            "content_view_id": 7,
+            "created_at": "2018-09-12 03:40:47 UTC",
+            "default": false,
+            "description": null,
+            "docker_manifest_count": 0,
+            "docker_tag_count": 0,
+            "environments": [],
+            "errata_counts": {
+                "bugfix": 2473,
+                "enhancement": 743,
+                "security": 777,
+                "total": 3993
+            },
+            "file_count": 0,
+            "id": 30,
+            "katello_content_views": [],
+            "last_event": {
+                "action": "promotion",
+                "created_at": "2018-09-12 03:48:47 UTC",
+                "description": null,
+                "environment": {
+                    "id": 2,
+                    "name": "Development"
+                },
+                "publish": false,
+                "status": "successful",
+                "task": null,
+                "updated_at": "2018-09-12 03:48:56 UTC",
+                "user": "admin",
+                "version": "5.0",
+                "version_id": 30
+            },
+            "major": 5,
+            "minor": 0,
+            "name": "RHEL 7 DevTools 5.0",
+            "ostree_branch_count": 0,
+            "package_count": 47730,
+            "package_group_count": 0,
+            "permissions": {
+                "deletable": true
+            },
+            "puppet_module_count": 3,
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 209,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 210,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 211,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 212,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 213,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 214,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 215,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                }
+            ],
+            "srpm_count": 0,
+            "updated_at": "2018-09-12 03:40:47 UTC",
+            "version": "5.0"
+        },
+        {
+            "active_history": [],
+            "composite_content_view_ids": [],
+            "content_view": {
+                "id": 7,
+                "label": "ccv-RHEL-7-DevTools",
+                "name": "RHEL 7 DevTools"
+            },
+            "content_view_id": 7,
+            "created_at": "2018-09-10 23:05:35 UTC",
+            "default": false,
+            "description": null,
+            "docker_manifest_count": 0,
+            "docker_tag_count": 0,
+            "environments": [],
+            "errata_counts": {
+                "bugfix": 2473,
+                "enhancement": 743,
+                "security": 777,
+                "total": 3993
+            },
+            "file_count": 0,
+            "id": 24,
+            "katello_content_views": [],
+            "last_event": {
+                "action": "promotion",
+                "created_at": "2018-09-10 23:41:11 UTC",
+                "description": null,
+                "environment": {
+                    "id": 2,
+                    "name": "Development"
+                },
+                "publish": false,
+                "status": "successful",
+                "task": null,
+                "updated_at": "2018-09-10 23:41:21 UTC",
+                "user": "admin",
+                "version": "4.0",
+                "version_id": 24
+            },
+            "major": 4,
+            "minor": 0,
+            "name": "RHEL 7 DevTools 4.0",
+            "ostree_branch_count": 0,
+            "package_count": 47730,
+            "package_group_count": 0,
+            "permissions": {
+                "deletable": true
+            },
+            "puppet_module_count": 3,
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 182,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 183,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 184,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 185,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 186,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 187,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 188,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                }
+            ],
+            "srpm_count": 0,
+            "updated_at": "2018-09-10 23:05:35 UTC",
+            "version": "4.0"
+        },
+        {
+            "active_history": [],
+            "composite_content_view_ids": [],
+            "content_view": {
+                "id": 7,
+                "label": "ccv-RHEL-7-DevTools",
+                "name": "RHEL 7 DevTools"
+            },
+            "content_view_id": 7,
+            "created_at": "2018-09-05 23:59:46 UTC",
+            "default": false,
+            "description": "All errata until 2018-09-05",
+            "docker_manifest_count": 0,
+            "docker_tag_count": 0,
+            "environments": [],
+            "errata_counts": {
+                "bugfix": 2473,
+                "enhancement": 743,
+                "security": 777,
+                "total": 3993
+            },
+            "file_count": 0,
+            "id": 21,
+            "katello_content_views": [],
+            "last_event": {
+                "action": "promotion",
+                "created_at": "2018-09-06 00:05:08 UTC",
+                "description": "All errata until 2018-09-05",
+                "environment": {
+                    "id": 2,
+                    "name": "Development"
+                },
+                "publish": false,
+                "status": "successful",
+                "task": null,
+                "updated_at": "2018-09-06 00:05:21 UTC",
+                "user": "admin",
+                "version": "3.0",
+                "version_id": 21
+            },
+            "major": 3,
+            "minor": 0,
+            "name": "RHEL 7 DevTools 3.0",
+            "ostree_branch_count": 0,
+            "package_count": 47730,
+            "package_group_count": 0,
+            "permissions": {
+                "deletable": true
+            },
+            "puppet_module_count": 3,
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 168,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 169,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 170,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 171,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 172,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 173,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 174,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                }
+            ],
+            "srpm_count": 0,
+            "updated_at": "2018-09-05 23:59:46 UTC",
+            "version": "3.0"
+        },
+        {
+            "active_history": [],
+            "composite_content_view_ids": [],
+            "content_view": {
+                "id": 7,
+                "label": "ccv-RHEL-7-DevTools",
+                "name": "RHEL 7 DevTools"
+            },
+            "content_view_id": 7,
+            "created_at": "2018-08-22 23:05:23 UTC",
+            "default": false,
+            "description": null,
+            "docker_manifest_count": 0,
+            "docker_tag_count": 0,
+            "environments": [],
+            "errata_counts": {
+                "bugfix": 2442,
+                "enhancement": 738,
+                "security": 768,
+                "total": 3948
+            },
+            "file_count": 0,
+            "id": 17,
+            "katello_content_views": [],
+            "last_event": {
+                "action": "promotion",
+                "created_at": "2018-08-22 23:12:26 UTC",
+                "description": null,
+                "environment": {
+                    "id": 2,
+                    "name": "Development"
+                },
+                "publish": false,
+                "status": "successful",
+                "task": null,
+                "updated_at": "2018-08-22 23:12:43 UTC",
+                "user": "admin",
+                "version": "2.0",
+                "version_id": 17
+            },
+            "major": 2,
+            "minor": 0,
+            "name": "RHEL 7 DevTools 2.0",
+            "ostree_branch_count": 0,
+            "package_count": 47389,
+            "package_group_count": 0,
+            "permissions": {
+                "deletable": true
+            },
+            "puppet_module_count": 3,
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 130,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 131,
+                    "label": "Red_Hat_Satellite_Tools_6_3_-_Puppet_4_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 133,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Extras_RPMs_x86_64",
+                    "name": "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 135,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Supplementary_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 137,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_-_Optional_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 139,
+                    "label": "Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64_7Server",
+                    "name": "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+                },
+                {
+                    "content_type": "yum",
+                    "id": 141,
+                    "label": "Red_Hat_Satellite_Tools_6_3_for_RHEL_7_Server_RPMs_x86_64",
+                    "name": "Red Hat Satellite Tools 6.3 for RHEL 7 Server RPMs x86_64"
+                }
+            ],
+            "srpm_count": 0,
+            "updated_at": "2018-08-22 23:05:23 UTC",
+            "version": "2.0"
+        },
+        {
+            "active_history": [],
+            "composite_content_view_ids": [],
+            "content_view": {
+                "id": 7,
+                "label": "ccv-RHEL-7-DevTools",
+                "name": "RHEL 7 DevTools"
+            },
+            "content_view_id": 7,
+            "created_at": "2018-08-22 23:02:44 UTC",
+            "default": false,
+            "description": null,
+            "docker_manifest_count": 0,
+            "docker_tag_count": 0,
+            "environments": [],
+            "errata_counts": {
+                "bugfix": 89,
+                "enhancement": 147,
+                "security": 129,
+                "total": 365
+            },
+            "file_count": 0,
+            "id": 16,
+            "katello_content_views": [],
+            "last_event": {
+                "action": "promotion",
+                "created_at": "2018-08-22 23:03:52 UTC",
+                "description": null,
+                "environment": {
+                    "id": 2,
+                    "name": "Development"
+                },
+                "publish": false,
+                "status": "successful",
+                "task": null,
+                "updated_at": "2018-08-22 23:03:54 UTC",
+                "user": "admin",
+                "version": "1.0",
+                "version_id": 16
+            },
+            "major": 1,
+            "minor": 0,
+            "name": "RHEL 7 DevTools 1.0",
+            "ostree_branch_count": 0,
+            "package_count": 10401,
+            "package_group_count": 0,
+            "permissions": {
+                "deletable": true
+            },
+            "puppet_module_count": 0,
+            "repositories": [
+                {
+                    "content_type": "yum",
+                    "id": 127,
+                    "label": "Red_Hat_Software_Collections_RPMs_for_Red_Hat_Enterprise_Linux_7_Server_x86_64_7Server",
+                    "name": "Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server x86_64 7Server"
+                }
+            ],
+            "srpm_count": 0,
+            "updated_at": "2018-08-22 23:02:44 UTC",
+            "version": "1.0"
+        }
+    ],
+    "search": null,
+    "sort": {
+        "by": null,
+        "order": null
+    },
+    "subtotal": 7,
+    "total": 7
+}

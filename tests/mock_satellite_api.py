@@ -3,47 +3,18 @@
 Mocks the Satellite 6 API
 """
 
-import BaseHTTPServer
+import SimpleHTTPServer
 import SocketServer
 import os
-import threading
 import socket
+import threading
 
-class MockSatelliteAPIRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
-    FILE_PATH = 'api'
 
-    def do_get(self, content):
-        self.send_response(200, self.responses[200])
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.end_headers()
-        self.wfile.write(content)
-
-    def do_notFound(self):
-        self.send_response(404, self.responses[404])
-        self.end_headers()
-
-    def do_get_file(self, filename):
-        directory = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)),
-            self.FILE_PATH
-        )
-        with open(os.path.join(directory, filename), 'r') as f:
-            self.do_get('\n'.join(f.readlines()))
+class MockSatelliteAPIRequestHandler(
+        SimpleHTTPServer.SimpleHTTPRequestHandler):
+    def log_message(self, format, *args):
+        # Override log_message to avoid logging to console
         pass
-
-    def do_GET(self):
-        if self.path == '/foo':
-            self.do_get(
-                '[\n'
-                '  {\n'
-                '    "foo": "bar"\n'
-                '  }\n'
-                ']'
-            )
-        elif self.path == '/baz':
-            self.do_get_file('baz.json')
-        else:
-            self.do_notFound()
 
 
 def get_free_port():
@@ -53,7 +24,14 @@ def get_free_port():
     s.close()
     return port
 
+
 def serve_api(hostname='localhost', port=8000):
+    FILE_PATH = 'www'
+    directory = os.path.join(
+        os.path.abspath(os.path.dirname(__file__)),
+        FILE_PATH
+    )
+    os.chdir(directory)
     mock_server = SocketServer.TCPServer(
         (hostname, port),
         MockSatelliteAPIRequestHandler

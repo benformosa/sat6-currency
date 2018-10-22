@@ -4,20 +4,24 @@ import sat6_currency
 import mock_satellite_api
 
 import collections
+import os
 import requests
 import unittest
 
 
 class TestLoadConfig(unittest.TestCase):
+    def setUp(self):
+        self.directory = os.path.abspath(os.path.dirname(__file__))
+
     def test_loadconfig_good(self):
-        with open('tests/config_good.yaml', 'r') as f:
+        with open(os.path.join(self.directory, 'config_good.yaml'), 'r') as f:
             (server, username, password) = sat6_currency.loadconfig(f)
             self.assertEqual(server, 'https://example.com/')
             self.assertEqual(username, 'Admin')
             self.assertEqual(password, 'sw0rdfi$h')
 
     def test_loadconfig_bare(self):
-        with open('tests/config_bare.yaml', 'r') as f:
+        with open(os.path.join(self.directory, 'config_bare.yaml'), 'r') as f:
             (server, username, password) = sat6_currency.loadconfig(f)
             self.assertEqual(server, None)
             self.assertEqual(username, None)
@@ -270,7 +274,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(config.url, 'https://satellite.example.com:8443')
 
 
-class TestAPI(unittest.TestCase):
+class TestCaseWithMock(unittest.TestCase):
     def setUpMockAPI(self):
         self.web_port = mock_satellite_api.get_free_port()
         self.hostname = 'localhost'
@@ -291,6 +295,8 @@ class TestAPI(unittest.TestCase):
         self.setUpMockAPI()
         self.setUpConfig()
 
+
+class TestAPI(TestCaseWithMock):
     def test_get_with_json_bad_host(self):
         with self.assertRaises(requests.ConnectionError):
             sat6_currency.get_with_json(
@@ -305,20 +311,36 @@ class TestAPI(unittest.TestCase):
                 self.url + '/bar'
             )
 
-    def test_get_with_json_foo(self):
-        self.assertEqual(
-            sat6_currency.get_with_json(
-                self.config,
-                self.url + '/foo'
-            ),
-            [{u'foo': u'bar'}]
-        )
-
     def test_get_with_json_baz(self):
         self.assertEqual(
             sat6_currency.get_with_json(
                 self.config,
-                self.url + '/baz'
+                self.url + '/baz.json'
             ),
             [{u'baz': u'qux'}]
+        )
+
+
+class TestSimpleCurrency(TestCaseWithMock):
+    def test_simple_currency(self):
+        output = sat6_currency.simple_currency(self.config)
+        self.assertEqual(
+            output,
+            [collections.OrderedDict([
+                ('system_id', 5),
+                ('org_name', u'ORG'),
+                ('name', u'dev1.example.com'),
+                ('security', 0),
+                ('bug', 0),
+                ('enhancement', 0),
+                ('score', 0),
+                ('content_view', u'RHEL 7 DevTools'),
+                ('content_view_publish_date', u'2018-10-09 21:31:44 UTC'),
+                ('lifecycle_environment', u'Development'),
+                ('subscription_os_release', u'7Server'),
+                ('os_release', u'RedHat 7.5'),
+                ('arch', u'x86_64'),
+                ('subscription_status', u'Fully entitled'),
+                ('comment', u'Development machine')
+            ])]
         )
