@@ -163,3 +163,13 @@ A score is shown for each host, based on the number and type of outstanding erra
 # Notes
 
 * The script will prompt for password if not provided
+
+# Tests
+
+Tests are written with unittest.
+
+To run tests:
+
+~~~
+↪ python -m unittest discover -s tests
+~~~
